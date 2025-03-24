@@ -1,0 +1,17 @@
+doctype html 
+html 
+    head 
+        title #{pageTitle}
+        link(
+            rel="stylesheet" 
+            href="/assets/css/style.css"
+        )
+
+    body 
+        include ../partials/header.pug
+         
+        block main 
+
+        include ../partials/footer.pug
+
+        script(src="/assets/js/script.js")
