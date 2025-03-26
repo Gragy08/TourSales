@@ -7,11 +7,7 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE);
 
 
-//Define a schema
-const Tour = mongoose.model('Tour', {
-    name: String,
-    vehicle: String
-});
+const Tour = require('./models/tour.model');
 
 const app = express()
 const port = 3000
