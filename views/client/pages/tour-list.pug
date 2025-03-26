@@ -2,3 +2,7 @@ extends ../layouts/default.pug
 
 block main 
     h1 Danh sach Tour 
+
+    ul 
+        each item in tourList 
+            li #{item.name} (Vehicle: #{item.vehicle})
