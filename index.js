@@ -7,7 +7,9 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE);
 
 
-const Tour = require('./models/tour.model');
+//nhúng 2 file của bên controller vô, lưu trữ với tên biến
+const tourController = require('./controllers/client/tour.controller');
+const homeController = require('./controllers/client/home.controller');
 
 const app = express()
 const port = 3000
@@ -20,24 +22,9 @@ app.set('view engine', 'pug');
 // Sử dụng static file
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/', (req, res) => {
-    res.render("client/pages/home", {
-        pageTitle: "Trang chủ",
-    })
-})
+app.get('/', homeController.home);
 
-
-//await là chờ để lấy dữ liệu xong mới chạy xuống dòng code tiếp theo, dùng await phải có async
-app.get('/tours', async (req, res) => {
-    const tourList = await Tour.find({});
-
-    console.log(tourList);
-
-    res.render("client/pages/tour-list", {
-        pageTitle: "Danh sách tour",
-        tourList: tourList
-    })
-})
+app.get('/tour', tourController.list);
 
 app.listen(port, () => {
     console.log(`Website dang chay tren http://localhost:${port}`)
