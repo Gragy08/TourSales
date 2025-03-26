@@ -6,10 +6,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE);
 
-
-//nhúng 2 file của bên controller vô, lưu trữ với tên biến
-const tourController = require('./controllers/client/tour.controller');
-const homeController = require('./controllers/client/home.controller');
+const clientRoutes = require("./routers/client/index.router");
 
 const app = express()
 const port = 3000
@@ -22,9 +19,8 @@ app.set('view engine', 'pug');
 // Sử dụng static file
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/', homeController.home);
-
-app.get('/tour', tourController.list);
+// Thiet lap duong dan
+app.use("/", clientRoutes);
 
 app.listen(port, () => {
     console.log(`Website dang chay tren http://localhost:${port}`)
