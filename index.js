@@ -3,13 +3,14 @@ const path = require('path');
 require('dotenv').config();
 //dotenv là một thư viện giúp chúng ta đọc file .env để lấy thông tin môi trường
 //Tạo một biến môi trường để khi đưa code lên gitlab không bị lộ thông tin của csdl
-const mongoose = require('mongoose');
-mongoose.connect(process.env.DATABASE);
-
 const clientRoutes = require("./routers/client/index.router");
+const database = require("./config/database");
 
 const app = express()
 const port = 3000
+
+//ket noi database
+database.connect();
 
 // Thiết lập views
 // dirname là biến để nối chuỗi có sẵn trong nodeJS
