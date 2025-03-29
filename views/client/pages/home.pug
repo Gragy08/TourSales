@@ -119,7 +119,7 @@ block main
         stock: 10
       },
       {
-        avatar: "assets/images/product-2.jpg",
+        avatar: "/assets/images/product-2.jpg",
         slug: "#",
         discount: 0,
         name: "Tour 2024 Phú Quốc - Thiên Đường Đảo Ngọc (3N2D)",
@@ -200,3 +200,47 @@ block main
                 .swiper-slide
                   +product-item(item)
   // End Section 2
+
+  // Section 3
+  .section-3
+    .container
+      h2.box-title(
+        data-aos-duration="800" 
+        data-aos="fade-up"
+        ) Khuyến Mại Bùng Nổ - Đánh Tan Nóng Bức
+      .swiper.swiper-section-3(
+        data-aos-delay="150" 
+        data-aos-duration="800" 
+        data-aos="fade-up"
+        )
+        .swiper-wrapper
+          .swiper-slide
+            .inner-item
+              a(href="#")
+                img(
+                  alt="" 
+                  src="/assets/images/banner-1.png"
+                  )
+          .swiper-slide
+            .inner-item
+              a(href="#")
+                img(
+                  alt="" 
+                  src="/assets/images/banner-2.png"
+                  )
+          .swiper-slide
+            .inner-item
+              a(href="#")
+                img(
+                  alt="" 
+                  src="/assets/images/banner-3.png"
+                  )
+          .swiper-slide
+            .inner-item
+              a(href="#")
+                img(
+                  alt="" 
+                  src="/assets/images/banner-3.png"
+                  )
+        .swiper-pagination
+  // End Section 3
