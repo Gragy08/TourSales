@@ -9,3 +9,9 @@ module.exports.create = async (req, res) => {
         pageTitle: "Tạo tour"
     })
 }
+
+module.exports.trash = async (req, res) => {
+    res.render("admin/pages/tour-trash", {
+        pageTitle: "Thùng rác tour"
+    })
+}
