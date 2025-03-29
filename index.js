@@ -6,6 +6,8 @@ require('dotenv').config();
 const admintRoutes = require("./routers/admin/index.router");
 const clientRoutes = require("./routers/client/index.router");
 const database = require("./config/database");
+//Nhúng file lưu biến vào
+const variableConfig = require("./config/variable");
 
 const app = express()
 const port = 3000
@@ -21,8 +23,14 @@ app.set('view engine', 'pug');
 // Sử dụng static file
 app.use(express.static(path.join(__dirname, "public")));
 
+// Tạo biến toàn cục trong file PUG
+// Biến env chỉ dùng được trong các file JS bên Back-end thôi
+// Tất cả file PUG đều dùng được biến pathAdmin này
+// Tất cả file PUG mà sử dụng với res.render đều có thể sử dụng biến pathAdmin này
+app.locals.pathAdmin = variableConfig.pathAdmin;
+
 // Thiet lap duong dan
-app.use("/admin", admintRoutes);
+app.use(`/${variableConfig.pathAdmin}`, admintRoutes);
 app.use("/", clientRoutes);
 
 app.listen(port, () => {
