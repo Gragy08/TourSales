@@ -8,4 +8,6 @@ router.get('/website-info', settingController.websiteInfo)
 
 router.get('/account-admin/list', settingController.accountAdminList)
 
+router.get('/account-admin/create', settingController.accountAdminCreate)
+
 module.exports = router;
