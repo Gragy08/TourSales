@@ -8,4 +8,6 @@ router.get('/register', accountController.register)
 
 router.get('/forgot-password', accountController.forgotPassword)
 
+router.get('/otp-password', accountController.otpPassword)
+
 module.exports = router;
