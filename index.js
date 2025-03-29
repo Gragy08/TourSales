@@ -3,6 +3,7 @@ const path = require('path');
 require('dotenv').config();
 //dotenv là một thư viện giúp chúng ta đọc file .env để lấy thông tin môi trường
 //Tạo một biến môi trường để khi đưa code lên gitlab không bị lộ thông tin của csdl
+const admintRoutes = require("./routers/admin/index.router");
 const clientRoutes = require("./routers/client/index.router");
 const database = require("./config/database");
 
@@ -21,6 +22,7 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, "public")));
 
 // Thiet lap duong dan
+app.use("/admin", admintRoutes);
 app.use("/", clientRoutes);
 
 app.listen(port, () => {
