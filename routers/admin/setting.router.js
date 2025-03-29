@@ -6,6 +6,6 @@ router.get('/list', settingController.list)
 
 router.get('/website-info', settingController.websiteInfo)
 
-// router.get('/trash', tourController.trash)
+router.get('/account-admin/list', settingController.accountAdminList)
 
 module.exports = router;
