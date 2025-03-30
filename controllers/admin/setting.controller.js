@@ -21,3 +21,9 @@ module.exports.accountAdminCreate = async (req, res) => {
         pageTitle: "Tạo tài khoản quản trị"
     })
 }
+
+module.exports.roleList = async (req, res) => {
+    res.render("admin/pages/setting-role-list", {
+        pageTitle: "Nhóm quyền"
+    })
+}
