@@ -29,6 +29,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // Tất cả file PUG mà sử dụng với res.render đều có thể sử dụng biến pathAdmin này
 app.locals.pathAdmin = variableConfig.pathAdmin;
 
+// Cho phép front-end gửi data lên dưới dạng JSON
+app.use(express.json());
+
 // Thiet lap duong dan
 app.use(`/${variableConfig.pathAdmin}`, admintRoutes);
 app.use("/", clientRoutes);

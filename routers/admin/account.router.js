@@ -6,6 +6,11 @@ router.get('/login', accountController.login)
 
 router.get('/register', accountController.register)
 
+// Dùng để gửi dữ liệu đăng ký lên server
+router.post('/register', accountController.registerPost)
+
+router.get('/register-initial', accountController.registerInitial)
+
 router.get('/forgot-password', accountController.forgotPassword)
 
 router.get('/otp-password', accountController.otpPassword)
