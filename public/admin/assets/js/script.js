@@ -605,3 +605,22 @@ if(profileChangePasswordForm) {
   ;
 }
 // End Profile Change Password Form
+
+// Sider -- Chuyển trang thì li của trang đó đổi màu
+// Lấy đường link trên URL để so sánh với đường link ở thẻ a, nếu trùng thì thêm class active
+const sider = document.querySelector(".sider");
+if(sider) {
+  const pathNameCur = window.location.pathname;
+  const splitPathNameCur = pathNameCur.split("/");
+  const menuList = sider.querySelectorAll("a");
+  menuList.forEach(item => {
+    const href = item.href;
+    const pathName = new URL(href).pathname;
+    const splitPathName = pathName.split("/");
+    if(splitPathNameCur[1] == splitPathName[1] &&
+      splitPathNameCur[2] == splitPathName[2]) {
+        item.classList.add("active");
+    }
+  })
+}
+// End Sider
