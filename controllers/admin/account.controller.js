@@ -1,4 +1,6 @@
 const AccountAdmin = require("../../models/account-admin.model")
+// Nhúng thư viện bcrypts vào
+const bcryptjs = require("bcryptjs")
 
 module.exports.login = async (req, res) => {
     //Khi chạy vào hàm này sẽ render ra file login.pug trong thư mục views/admin/pages
@@ -33,11 +35,15 @@ module.exports.registerPost = async (req, res) => {
         return;
     }
 
+    // Mã hóa mật khẩu trước khi đưa vào csdl với thư viện bcryptjs
+    const salt = await bcryptjs.genSalt(10); // Tạo ra chuỗi ngẫu nhiên có 10 ký tự
+    const hashedPassword = await bcryptjs.hash(password, salt);
+
     // Nếu chưa tồn tại thì tạo mới tài khoản
     const newAccount = new AccountAdmin({
         fullName: fullName,
         email: email,
-        password: password,
+        password: hashedPassword,
         status: "initial"
     });
 

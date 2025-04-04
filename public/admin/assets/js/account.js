@@ -143,7 +143,7 @@ if(registerForm) {
   
           if(data.code == "success") {
             alert(data.message);
-            window.location.href = `/${pathAdmin}/account/resgister-initial`;
+            window.location.href = `/${pathAdmin}/account/register-initial`;
           }
         })
     })
