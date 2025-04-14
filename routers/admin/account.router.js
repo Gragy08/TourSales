@@ -2,12 +2,17 @@ const router = require('express').Router();
 
 const accountController = require("../../controllers/admin/account.controller");
 
+const accountValidate = require("../../validates/admin/account.validate");
+
 router.get('/login', accountController.login)
 
 router.get('/register', accountController.register)
 
 // Dùng để gửi dữ liệu đăng ký lên server
-router.post('/register', accountController.registerPost)
+router.post(
+    '/register', 
+    accountValidate.registerPost, // Kiểm tra dữ liệu đầu vào, hợp lệ rồi mới gửi lên csdl
+    accountController.registerPost)
 
 router.get('/register-initial', accountController.registerInitial)
 
