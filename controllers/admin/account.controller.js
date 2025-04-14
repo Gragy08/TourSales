@@ -1,6 +1,7 @@
 const AccountAdmin = require("../../models/account-admin.model")
 // Nhúng thư viện bcrypts vào
 const bcryptjs = require("bcryptjs")
+const jwt = require('jsonwebtoken')
 
 module.exports.login = async (req, res) => {
     //Khi chạy vào hàm này sẽ render ra file login.pug trong thư mục views/admin/pages
@@ -47,6 +48,31 @@ module.exports.loginPost = async (req, res) => {
         });
         return;
     }
+
+    // Create JWT
+    // Nếu tài khoản đã tồn tại và mật khẩu đúng thì tạo token cho tài khoản
+    // Token này sẽ được gửi về cho client để lưu lại trong cookie, mỗi lần gửi request lên server thì kèm theo token này để xác thực tài khoản
+    const token = jwt.sign(
+        {
+            id: existAccount.id,
+            email: existAccount.email
+        },
+        // Tham số thứ 2 là một chuỗi bảo mật, nó sẽ mã hóa thông tin trong token theo chuỗi bảo mật này
+        // Lưu vào env
+        process.env.JWT_SECRET,
+        {
+            // Tham số thứ 3 là thời gian sống của token, sau thời gian này thì token sẽ không còn hiệu lực nữa
+            expiresIn: '1d' // 1 ngày
+        }
+    )
+
+    // Lưu token vào cookie, mỗi lần gửi request lên server thì kèm theo token này để xác thực tài khoản
+    // Lưu trong cookie có ưu điểm là cả bên BE và FE đều lấy được
+    res.cookie("token", token, {
+        maxAge: 24 * 60 * 60 * 1000, // Thời gian sống của cookie là 1 ngày theo mili giây
+        httpOnly: true, // Chỉ cho phép truy cập cookie từ server, không cho phép truy cập từ client (bảo mật hơn)
+        sameSite: "strict" // Chỉ cho phép gửi cookie từ cùng một trang web, không cho phép gửi cookie từ trang web khác (bảo mật hơn)
+    })
 
     // Sau khi lấy được data thì phản hồi lại cho front-end chuỗi JSON
     res.json({
