@@ -10,6 +10,51 @@ module.exports.login = async (req, res) => {
     })
 }
 
+module.exports.loginPost = async (req, res) => {
+    // Ở hàm này chúng ta sẽ nhận đưọc dâta từ form đăng ký gửi lên, lấy data thông qua body
+    // Do dùng .json để cho phép gửi dữ liệu lên backend ở file index.js tổng rồi thì dữ liệu nhận ở đây đã được chuyển từ json sang js rồi
+    // Phá vỡ cấu trúc để có các biến dùng cho tiện
+    const { email, password } = req.body;
+
+    const existAccount = await AccountAdmin.findOne({
+        email: email
+    });
+
+    if(!existAccount) {
+        res.json({
+            code: "error",
+            message: "Email không tồn tại!"
+        });
+        return;
+    }
+
+    // Nếu tài khoản đã tồn tại thì kiểm tra mật khẩu
+    // Mật khẩu được mã hóa nên không thể so sánh trực tiếp với mật khẩu đã nhập vào được
+    // Sử dụng hàm compare của bcryptjs để so sánh mật khẩu đã nhập vào với mật khẩu trong csdl
+    const isPasswordValid = await bcryptjs.compare(password, existAccount.password);
+    if(!isPasswordValid) {
+        res.json({
+            code: "error",
+            message: "Mật khẩu không đúng!"
+        });
+        return;
+    }
+
+    if(existAccount.status != "active") {
+        res.json({
+            code: "error",
+            message: "Tài khoản chưa được kích hoạt!"
+        });
+        return;
+    }
+
+    // Sau khi lấy được data thì phản hồi lại cho front-end chuỗi JSON
+    res.json({
+        code: "success",
+        message: "Đăng nhập thành công!" 
+    })
+}
+
 module.exports.register = async (req, res) => {
     res.render("admin/pages/register", {
         pageTitle: "Đăng ký"
