@@ -9,27 +9,31 @@ const contactRouters = require("./contact.router");
 const settingRouters = require("./setting.router");
 const profileRouters = require("./profile.router");
 
+const authMiddleware = require("../../middlewares/admin/auth.middleware");
+
 //dùng use không dùng get để mấy router con lại không bị ảnh hưởng, các router còn con lại có thể sử dụng get, post, put, delete
 router.use('/account', accountRouters)
 
-router.use('/dashboard', dashboardRouters)
+// Sử dụng middleware authMiddleware.verifyToken để xác thực token trước khi vào các router khác
+// Chạy vào authMiddleware.verifyToken trước rồi mới chạy vào các router khác
+router.use('/dashboard', authMiddleware.verifyToken, dashboardRouters)
 
-router.use('/category', categoryRouters)
+router.use('/category', authMiddleware.verifyToken, categoryRouters)
 
-router.use('/tour', tourRouters)
+router.use('/tour', authMiddleware.verifyToken, tourRouters)
 
-router.use('/order', orderRouters)
+router.use('/order', authMiddleware.verifyToken, orderRouters)
 
-router.use('/user', userRouters)
+router.use('/user', authMiddleware.verifyToken, userRouters)
 
-router.use('/contact', contactRouters)
+router.use('/contact', authMiddleware.verifyToken, contactRouters)
 
-router.use('/setting', settingRouters)
+router.use('/setting', authMiddleware.verifyToken, settingRouters)
 
-router.use('/profile', profileRouters)
+router.use('/profile', authMiddleware.verifyToken, profileRouters)
 
 
-router.get('*', (req, res) => {
+router.get('*', authMiddleware.verifyToken, (req, res) => {
     res.render("admin/pages/error-404", {
         pageTitle: "404 Not Found"
     })

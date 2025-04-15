@@ -9,6 +9,8 @@ const database = require("./config/database");
 //Nhúng file lưu biến vào
 const variableConfig = require("./config/variable");
 
+const cookieParser = require('cookie-parser'); // Thư viện giúp chúng ta lấy cookie từ request gửi lên server
+
 const app = express()
 const port = 3000
 
@@ -29,8 +31,13 @@ app.use(express.static(path.join(__dirname, "public")));
 // Tất cả file PUG mà sử dụng với res.render đều có thể sử dụng biến pathAdmin này
 app.locals.pathAdmin = variableConfig.pathAdmin;
 
+// Tạo biến toàn cục trong các file BACKEND
+global.pathAdmin = variableConfig.pathAdmin;
+
 // Cho phép front-end gửi data lên dưới dạng JSON
 app.use(express.json());
+
+app.use(cookieParser()); // Sử dụng cookie-parser để lấy cookie từ request gửi lên server
 
 // Thiet lap duong dan
 app.use(`/${variableConfig.pathAdmin}`, admintRoutes);
