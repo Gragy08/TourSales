@@ -151,3 +151,12 @@ module.exports.registerInitial = async (req, res) => {
         pageTitle: "Tài khoản đã được khởi tạo"
     })
 }
+
+module.exports.logoutPost = async (req, res) => {
+    // Xóa token trong cookie đi
+    res.clearCookie("token");
+    res.json({
+        code: "success",
+        message: "Đăng xuất thành công!"
+    })
+}
