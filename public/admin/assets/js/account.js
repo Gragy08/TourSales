@@ -48,6 +48,7 @@ if(loginForm) {
       const finalData = {
         email: email,
         password: password,
+        rememberPassword: rememberPassword
       }
 
       fetch(`/${pathAdmin}/account/login`, {

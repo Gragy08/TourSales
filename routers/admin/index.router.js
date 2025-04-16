@@ -11,6 +11,12 @@ const profileRouters = require("./profile.router");
 
 const authMiddleware = require("../../middlewares/admin/auth.middleware");
 
+// Khi đăng xuất ra bấm nút trở lại vẫn vào được trang tổng quan => do nó còn lưu trong bộ nhớ đệm của trình duyệt
+router.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store')
+    next();
+})
+
 //dùng use không dùng get để mấy router con lại không bị ảnh hưởng, các router còn con lại có thể sử dụng get, post, put, delete
 router.use('/account', accountRouters)
 

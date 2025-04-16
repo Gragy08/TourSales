@@ -15,7 +15,7 @@ module.exports.loginPost = async (req, res) => {
     // Ở hàm này chúng ta sẽ nhận đưọc dâta từ form đăng ký gửi lên, lấy data thông qua body
     // Do dùng .json để cho phép gửi dữ liệu lên backend ở file index.js tổng rồi thì dữ liệu nhận ở đây đã được chuyển từ json sang js rồi
     // Phá vỡ cấu trúc để có các biến dùng cho tiện
-    const { email, password } = req.body;
+    const { email, password, rememberPassword } = req.body;
 
     const existAccount = await AccountAdmin.findOne({
         email: email
@@ -62,14 +62,14 @@ module.exports.loginPost = async (req, res) => {
         process.env.JWT_SECRET,
         {
             // Tham số thứ 3 là thời gian sống của token, sau thời gian này thì token sẽ không còn hiệu lực nữa
-            expiresIn: '1d' // 1 ngày
+            expiresIn: rememberPassword ? '30d' : '1d' // 1 ngày
         }
     )
 
     // Lưu token vào cookie, mỗi lần gửi request lên server thì kèm theo token này để xác thực tài khoản
     // Lưu trong cookie có ưu điểm là cả bên BE và FE đều lấy được
     res.cookie("token", token, {
-        maxAge: 24 * 60 * 60 * 1000, // Thời gian sống của cookie là 1 ngày theo mili giây
+        maxAge: rememberPassword ? (30 * 24 * 60 * 60 * 1000) : (24 * 60 * 60 * 1000), // Thời gian sống của cookie là 1 ngày theo mili giây hoặc 30 ngày nếu có rememberPassword
         httpOnly: true, // Chỉ cho phép truy cập cookie từ server, không cho phép truy cập từ client (bảo mật hơn)
         sameSite: "strict" // Chỉ cho phép gửi cookie từ cùng một trang web, không cho phép gửi cookie từ trang web khác (bảo mật hơn)
     })
