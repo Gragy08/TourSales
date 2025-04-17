@@ -266,6 +266,30 @@ module.exports.resetPassword = async (req, res) => {
     })
 }
 
+module.exports.resetPasswordPost = async (req, res) => {
+    const { password } = req.body;
+
+    // Encryption password with bcrypt
+    const salt = await bcryptjs.genSalt(10); // Tạo ra chuỗi ngẫu nhiên có 10 ký tự
+    const hashedPassword = await bcryptjs.hash(password, salt);
+
+    // updateOne: update 1 record. First parameter entered use to find that record, Second parameter use to update data of that record
+    await AccountAdmin.updateOne({
+        // Use id to find record 
+        _id: req.account.id,
+        deleted: false,
+        status: "active"
+    }, {
+        // Update new password to this record
+        password: hashedPassword
+    })
+
+    res.json({
+        code: "success",
+        message: "Đổi mật khẩu thành công!"
+    })
+}
+
 module.exports.registerInitial = async (req, res) => {
     res.render("admin/pages/register-initial", {
         pageTitle: "Tài khoản đã được khởi tạo"

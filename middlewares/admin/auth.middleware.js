@@ -29,6 +29,10 @@ module.exports.verifyToken = async (req, res, next) => {
             return;
         }
 
+        // Account existed
+        // Add to object req variable: account
+        req.account = existAccount;
+
         next();
     } catch (error) {
         res.clearCookie("token");

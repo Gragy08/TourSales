@@ -126,3 +126,5 @@ module.exports.loginPost = (req, res, next) => {
     // Chuyển tới hàm tiếp theo (là hàm add data vào database)
     next();
 }
+
+// module.exports.resetPasswordPost
