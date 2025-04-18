@@ -7,7 +7,6 @@ module.exports.verifyToken = async (req, res, next) => {
     try {
         // Lấy token từ cookie
         const token = req.cookies.token;
-        console.log(token);
 
         if(!token) {
             res.redirect(`/${pathAdmin}/account/login`);
@@ -23,7 +22,6 @@ module.exports.verifyToken = async (req, res, next) => {
             email: email,
             status: "active"
         })
-        console.log(existAccount);
 
         if(!existAccount) {
             res.clearCookie("token");
