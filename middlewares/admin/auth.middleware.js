@@ -7,6 +7,7 @@ module.exports.verifyToken = async (req, res, next) => {
     try {
         // Lấy token từ cookie
         const token = req.cookies.token;
+        console.log(token);
 
         if(!token) {
             res.redirect(`/${pathAdmin}/account/login`);
@@ -22,6 +23,7 @@ module.exports.verifyToken = async (req, res, next) => {
             email: email,
             status: "active"
         })
+        console.log(existAccount);
 
         if(!existAccount) {
             res.clearCookie("token");
@@ -32,6 +34,10 @@ module.exports.verifyToken = async (req, res, next) => {
         // Account existed
         // Add to object req variable: account
         req.account = existAccount;
+
+        // Generate User's Info into interface
+        // Use local in files PUG, variable: account
+        res.locals.account = existAccount;
 
         next();
     } catch (error) {

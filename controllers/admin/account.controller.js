@@ -87,7 +87,7 @@ module.exports.loginPost = async (req, res) => {
     res.json({
         code: "success",
         message: "Đăng nhập thành công!" 
-    })
+    });
 }
 
 module.exports.register = async (req, res) => {
