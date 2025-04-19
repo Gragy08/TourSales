@@ -3,9 +3,14 @@ const router = require('express').Router();
 // used to handle file upload requests (usually from multipart/form-data forms, 
 // the common type of form when users send files from client to server).
 const multer = require('multer');
-const upload = multer();
+// const upload = multer();
 
 const categoryController = require("../../controllers/admin/category.controller");
+
+// Embed multerUploadCloudinary library
+const cloudinaryHelper =  require("../../helpers/cloudinary.helper");
+
+const upload = multer({ storage: cloudinaryHelper.storage});
 
 router.get('/list', categoryController.list)
 
