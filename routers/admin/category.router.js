@@ -10,6 +10,8 @@ const categoryController = require("../../controllers/admin/category.controller"
 // Embed multerUploadCloudinary library
 const cloudinaryHelper =  require("../../helpers/cloudinary.helper");
 
+const categoryValidate = require("../../validates/admin/category.validate");
+
 const upload = multer({ storage: cloudinaryHelper.storage});
 
 router.get('/list', categoryController.list)
@@ -17,6 +19,6 @@ router.get('/list', categoryController.list)
 router.get('/create', categoryController.create)
 
 // avarta is a name of field that FE send to BE
-router.post('/create', upload.single('avatar'), categoryController.createPost)
+router.post('/create', upload.single('avatar'), categoryValidate.createPost, categoryController.createPost)
 
 module.exports = router;
