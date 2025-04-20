@@ -1,10 +1,41 @@
 const Category = require("../../models/category.model")
+const AccountAdmin = require("../../models/account-admin.model")
+
+//Embed momet library
+const moment = require("moment");
 
 const categoryHelper = require("../../helpers/category.helper")
 
 module.exports.list = async (req, res) => {
+    const categoryList = await Category.find({
+        deleted: false
+    }).sort({
+        position: "asc"
+    })
+
+    // Get user info by ID
+    for (const item of categoryList) {
+        if(item.createdBy) {
+            const infoUser = await AccountAdmin.findOne({
+                _id: item.createdBy
+            })
+            item.createdByFullName = infoUser.fullName;
+        }
+
+        if(item.updatedBy) {
+            const infoUser = await AccountAdmin.findOne({
+                _id: item.updatedBy
+            })
+            item.updatedByFullName = infoUser.fullName;
+        }
+
+        item.createdAtFormat = moment(item.createdAt).format("HH:mm - DD/MM/YYYY");
+        item.updatedAtFormat = moment(item.updatedAt).format("HH:mm - DD/MM/YYYY");
+    }
+
     res.render("admin/pages/category-list", {
-        pageTitle: "Tổng quan"
+        pageTitle: "Quản lý danh mục",
+        categoryList: categoryList
     })
 }
 
@@ -40,7 +71,8 @@ module.exports.createPost = async (req, res) => {
    req.flash("success", "Tạo danh mục thành công!");
 
    res.json({
-    code: "success",
-    message: "Tạo danh mục thành công!"
+    // code: "success",
+    // message: "Tạo danh mục thành công!"
+    code: "success"
    })
 }

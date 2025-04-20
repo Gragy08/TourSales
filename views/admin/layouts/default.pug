@@ -14,9 +14,9 @@ html
     script(src="/admin/assets/js/tinymce-config.js")
   body
 
-    - if (message.success)
+    - if (messages.success)
       div(class="alert alert-success" alert-time="3000")
-        span(message.success)
+        span(messages.success)
     
     //- Header
     include ../partials/header.pug
