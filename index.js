@@ -11,6 +11,10 @@ const variableConfig = require("./config/variable");
 
 const cookieParser = require('cookie-parser'); // Thư viện giúp chúng ta lấy cookie từ request gửi lên server
 
+//Embed flash library
+const flash = require('express-flash');
+const session = require('express-session');
+
 const app = express()
 const port = 3000
 
@@ -37,7 +41,13 @@ global.pathAdmin = variableConfig.pathAdmin;
 // Cho phép front-end gửi data lên dưới dạng JSON
 app.use(express.json());
 
-app.use(cookieParser()); // Sử dụng cookie-parser để lấy cookie từ request gửi lên server
+// Add random code to use express-flash
+app.use(cookieParser("GIAQUIDEPTRAISO1")); // Sử dụng cookie-parser để lấy cookie từ request gửi lên server
+
+// Embed flash
+// Download yarn add express-session
+app.use(session({cookie: {maxAge: 60000}}));
+app.use(flash());
 
 // Thiet lap duong dan
 app.use(`/${variableConfig.pathAdmin}`, admintRoutes);
