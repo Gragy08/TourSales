@@ -798,3 +798,15 @@ if(filterStatus) {
   }
 }
 // End Filter Status
+
+// Check All
+const checkAll = document.querySelector("[check-all]");
+if(checkAll) {
+  checkAll.addEventListener("click", () => {
+    const listCheckItem = document.querySelectorAll("[check-item]");
+    listCheckItem.forEach(item => {
+      item.checked = checkAll.checked;
+    })
+  })
+}
+// End Check All

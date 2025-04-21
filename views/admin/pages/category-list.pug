@@ -52,7 +52,7 @@ block main
         thead
           tr
             th(class="inner-center")
-              input(type="checkbox" class="inner-check")
+              input(type="checkbox" class="inner-check" check-all)
             th Tên danh mục
             th Ảnh đại diện
             th(class="inner-center") Vị trí
@@ -64,7 +64,7 @@ block main
           each item in categoryList
             tr
               td(class="inner-center")
-                input(type="checkbox" class="inner-check")
+                input(type="checkbox" class="inner-check" check-item=item.id)
               td #{item.name}
               td
                 img(src=item.avatar class="inner-avatar")
