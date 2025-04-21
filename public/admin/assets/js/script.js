@@ -810,3 +810,48 @@ if(checkAll) {
   })
 }
 // End Check All
+
+// Change Multi
+const changeMulti = document.querySelector("[change-multi]");
+if(changeMulti) {
+  const dataApi = changeMulti.getAttribute("data-api");
+  const select = changeMulti.querySelector("select");
+  const button = changeMulti.querySelector("button");
+
+  button.addEventListener("click", () => {
+    const option = select.value;
+    const listInputChecked = document.querySelectorAll("[check-item]:checked");
+    if(option && listInputChecked.length > 0) {
+      const ids = [];
+      listInputChecked.forEach(item => {
+        const id = item.getAttribute("check-item");
+        ids.push(id);
+      })
+
+      const dataFinal = {
+        option: option,
+        ids: ids
+      };
+
+      fetch(dataApi, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataFinal)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "error") {
+            alert(data.message);
+          }
+          if(data.code == "success") {
+            window.location.reload();
+          }
+        })
+    } else {
+      alert("Vui lòng chọn option và bản ghi muốn thực hiện!");
+    }
+  })
+}
+// End Change Multi
