@@ -1,3 +1,4 @@
+const slugify = require('slugify');
 const Category = require("../../models/category.model")
 const AccountAdmin = require("../../models/account-admin.model")
 
@@ -21,6 +22,16 @@ module.exports.list = async (req, res) => {
       // Lấy giá trị sau dấu "?" trên url  
       find.status = req.query.status;
     }
+
+    // Search
+    if(req.query.keyword) {
+      const keyword = slugify(req.query.keyword, {
+        lower: true
+      });
+      const keywordRegex = new RegExp(keyword);
+      find.slug = keywordRegex;
+    }
+    // End Search
     
     const categoryList = await Category
       .find(find)
