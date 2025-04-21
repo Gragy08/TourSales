@@ -7,11 +7,26 @@ const moment = require("moment");
 const categoryHelper = require("../../helpers/category.helper")
 
 module.exports.list = async (req, res) => {
-    const categoryList = await Category.find({
-        deleted: false
-    }).sort({
-        position: "asc"
-    })
+    // const categoryList = await Category.find({
+    //     deleted: false
+    // }).sort({
+    //     position: "asc"
+    // })
+
+    const find = {
+      deleted: false
+    };
+
+    if(req.query.status) {
+      // Lấy giá trị sau dấu "?" trên url  
+      find.status = req.query.status;
+    }
+    
+    const categoryList = await Category
+      .find(find)
+      .sort({
+        position: "desc"
+      })  
 
     // Get user info by ID
     for (const item of categoryList) {

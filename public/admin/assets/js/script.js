@@ -770,3 +770,31 @@ if(listButtonDelete.length > 0) {
   })
 }
 // End Button Delete
+
+// Filter Status
+const filterStatus = document.querySelector("[filter-status]");
+if(filterStatus) {
+  // Phải nhân bản lên thành một đường link mới thì mới có thể sử dụng hàm set và delete như bên dưới
+  const url = new URL(window.location.href);
+
+  filterStatus.addEventListener("change", () => {
+    const value = filterStatus.value;
+
+    // Add keys value to URL
+    if(value) {
+      // Add key value afted "?" sign in url
+      url.searchParams.set("status", value);
+    } else {
+      url.searchParams.delete("status");
+    }
+
+    window.location.href = url.href;
+  })
+
+  // Display default choose in status filter input type select
+  const valueCurrent = url.searchParams.get("status");
+  if(valueCurrent) {
+    filterStatus.value = valueCurrent;
+  }
+}
+// End Filter Status
