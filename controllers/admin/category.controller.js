@@ -53,26 +53,79 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
-   if(req.body.position) {
+    if(req.body.position) {
       req.body.position = parseInt(req.body.position);
-   } else {
-    // countDocuments: function to find
+    } else {
       const totalRecord = await Category.countDocuments({});
       req.body.position = totalRecord + 1;
-   }
+    }
+  
+    req.body.createdBy = req.account.id;
+    req.body.updatedBy = req.account.id;
+    req.body.avatar = req.file ? req.file.path : "";
+  
+    const newRecord = new Category(req.body);
+    await newRecord.save();
+  
+    req.flash("success", "Tạo danh mục thành công!");
+  
+    res.json({
+      code: "success"
+    })
+}  
 
-   req.body.createdBy = req.account.id;
-   req.body.updatedBy = req.account.id;
-   req.body.avatar = req.file ? req.file.path : "";
+module.exports.edit = async (req, res) => {
+    const categoryList = await Category.find({
+        deleted: false
+    })
 
-   const newRecord = new Category(req.body);
-   await newRecord.save();
+    const categoryTree = categoryHelper.buildCategoryTree(categoryList);
 
-   req.flash("success", "Tạo danh mục thành công!");
+    const id = req.params.id;
+    const categoryDetail = await Category.findOne({
+        _id: id,
+        deleted: false
+    })
 
-   res.json({
-    // code: "success",
-    // message: "Tạo danh mục thành công!"
-    code: "success"
-   })
+    res.render("admin/pages/category-edit", {
+        pageTitle: "Chỉnh sửa danh mục",
+        categoryList: categoryTree,
+        categoryDetail: categoryDetail
+    })
 }
+
+module.exports.editPatch = async (req, res) => {
+    try {
+      const id = req.params.id;
+  
+      if(req.body.position) {
+        req.body.position = parseInt(req.body.position);
+      } else {
+        const totalRecord = await Category.countDocuments({});
+        req.body.position = totalRecord + 1;
+      }
+  
+      req.body.updatedBy = req.account.id;
+      if(req.file) {
+        req.body.avatar = req.file.path;
+      } else {
+        delete req.body.avatar;
+      }
+  
+      await Category.updateOne({
+        _id: id,
+        deleted: false
+      }, req.body)
+  
+      req.flash("success", "Cập nhật danh mục thành công!");
+  
+      res.json({
+        code: "success"
+      })
+    } catch (error) {
+      res.json({
+        code: "error",
+        message: "Id không hợp lệ!"
+      })
+    }
+}  

@@ -21,4 +21,8 @@ router.get('/create', categoryController.create)
 // avarta is a name of field that FE send to BE
 router.post('/create', upload.single('avatar'), categoryValidate.createPost, categoryController.createPost)
 
+router.get('/edit/:id', categoryController.edit)
+
+router.patch('/edit/:id', upload.single('avatar'), categoryValidate.createPost, categoryController.editPatch)
+
 module.exports = router;
