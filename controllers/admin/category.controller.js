@@ -18,10 +18,18 @@ module.exports.list = async (req, res) => {
       deleted: false
     };
 
+    // Filter by status
     if(req.query.status) {
       // Lấy giá trị sau dấu "?" trên url  
       find.status = req.query.status;
     }
+    // End Filter by status
+    
+    // Filter by Created By
+    if(req.query.createdBy) {
+      find.createdBy = req.query.createdBy;
+    }
+    // End Filter by Created By
 
     // Search
     if(req.query.keyword) {
@@ -59,9 +67,16 @@ module.exports.list = async (req, res) => {
         item.updatedAtFormat = moment(item.updatedAt).format("HH:mm - DD/MM/YYYY");
     }
 
+    // Get list of admin accounts
+    const accountAdminList = await AccountAdmin
+    .find({})
+    // Lấy ra những trường cần thiết thôi
+    .select("id fullName")
+
     res.render("admin/pages/category-list", {
         pageTitle: "Quản lý danh mục",
-        categoryList: categoryList
+        categoryList: categoryList,
+        accountAdminList: accountAdminList
     })
 }
 

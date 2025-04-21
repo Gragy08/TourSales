@@ -799,6 +799,34 @@ if(filterStatus) {
 }
 // End Filter Status
 
+// Filter Created By
+const filterCreatedBy = document.querySelector("[filter-created-by]");
+if(filterCreatedBy) {
+  // Phải nhân bản lên thành một đường link mới thì mới có thể sử dụng hàm set và delete như bên dưới
+  const url = new URL(window.location.href);
+
+  filterCreatedBy.addEventListener("change", () => {
+    const value = filterCreatedBy.value;
+
+    // Add keys value to URL
+    if(value) {
+      // Add key value afted "?" sign in url
+      url.searchParams.set("createdBy", value);
+    } else {
+      url.searchParams.delete("createdBy");
+    }
+
+    window.location.href = url.href;
+  })
+
+  // Display default choose in status filter input type select
+  const valueCurrent = url.searchParams.get("createdBy");
+  if(valueCurrent) {
+    filterCreatedBy.value = valueCurrent;
+  }
+}
+// End Filter Created By
+
 // Check All
 const checkAll = document.querySelector("[check-all]");
 if(checkAll) {
