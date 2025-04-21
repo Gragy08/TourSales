@@ -129,3 +129,29 @@ module.exports.editPatch = async (req, res) => {
       })
     }
 }  
+
+module.exports.deletePatch = async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    await Category.updateOne({
+      _id: id
+    }, {
+      deleted: true,
+      // variable account was created in authMiddleware file(func)
+      deletedBy: req.account.id,
+      deletedAt: Date.now()
+    })
+
+    req.flash("success", "Xóa danh mục thành công!")
+
+    res.json({
+      code:"success"
+    })
+  } catch {
+    res.json({
+      code: "error",
+      message: "Id không hợp lệ!"
+    })
+  }
+}

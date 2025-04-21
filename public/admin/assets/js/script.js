@@ -744,3 +744,29 @@ if(alertTime) {
   }, time);
 }
 // End Alert
+
+// Button Delete
+const listButtonDelete = document.querySelectorAll("[button-delete]");
+if(listButtonDelete.length > 0) {
+  listButtonDelete.forEach(button => {
+    button.addEventListener("click", () => {
+      const dataApi = button.getAttribute("data-api");
+
+      fetch(dataApi, {
+        // Do chỉ xóa trên giao diện và đưa vào trang tour đã xóa thôi chứ chưa xóa trên database hẳn
+        method: "PATCH",
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "error") {
+            alert(data.message);
+          }
+
+          if(data.code == "success") {
+            window.location.reload();
+          }
+        })
+    })
+  })
+}
+// End Button Delete
