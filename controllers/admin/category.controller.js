@@ -31,6 +31,26 @@ module.exports.list = async (req, res) => {
     }
     // End Filter by Created By
 
+    // Filter by CreatedDate
+    const dateFilter = {}
+
+    if(req.query.startDate) {
+      // Phải định dạng lại bằng thư viện moment để khớp với định dạng của MongoDB
+      const startDate = moment(req.query.startDate).startOf("date").toDate();
+      dateFilter.$gte = startDate;
+    }
+
+    if(req.query.endDate) {
+      // Phải định dạng lại bằng thư viện moment để khớp với định dạng của MongoDB
+      const endDate = moment(req.query.endDate).endOf("date").toDate();
+      dateFilter.$lte = endDate;
+    }
+
+    if(Object.keys(dateFilter).length > 0) {
+      find.createdAt = dateFilter;
+    }
+    // End Filter by CreatedDate
+
     // Search
     if(req.query.keyword) {
       const keyword = slugify(req.query.keyword, {
@@ -54,7 +74,7 @@ module.exports.list = async (req, res) => {
       }
     }
     const totalItems = await Category.countDocuments(find);
-    const totalPages = Math.ceil(totalItems / limitItems);
+    const totalPages = Math.max(1, Math.ceil(totalItems / limitItems));
     if(page > totalPages) {
       page = totalPages;
     }
