@@ -40,12 +40,43 @@ module.exports.list = async (req, res) => {
       find.slug = keywordRegex;
     }
     // End Search
+
+    // Pagination
+    // 3 items each page
+    const limitItems = 3;
+    // current page 
+    let page = 1;
+    if(req.query.page) {
+      // Lấy giá trị sau dấu "?" trên url
+      const currentPage =  parseInt(req.query.page);
+      if(currentPage > 0) {
+        page = currentPage;
+      }
+    }
+    const totalItems = await Category.countDocuments(find);
+    const totalPages = Math.ceil(totalItems / limitItems);
+    if(page > totalPages) {
+      page = totalPages;
+    }
+    const skip = (page - 1) * limitItems;
+
+    // Return the interface of the necessary variables
+    const pagination = {
+      skip: skip,
+      totalItems: totalItems,
+      totalPages: totalPages
+    }
+    // End Pagination
     
     const categoryList = await Category
       .find(find)
       .sort({
         position: "desc"
-      })  
+      })
+      // display limitItem items each page
+      .limit(limitItems)
+      // skip skip items
+      .skip(skip)
 
     // Get user info by ID
     for (const item of categoryList) {
@@ -76,7 +107,8 @@ module.exports.list = async (req, res) => {
     res.render("admin/pages/category-list", {
         pageTitle: "Quản lý danh mục",
         categoryList: categoryList,
-        accountAdminList: accountAdminList
+        accountAdminList: accountAdminList,
+        pagination: pagination
     })
 }
 
