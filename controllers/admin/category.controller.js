@@ -53,9 +53,14 @@ module.exports.list = async (req, res) => {
 
     // Search
     if(req.query.keyword) {
+
+      // slugify là một thư viện giúp chuyển đổi chuỗi thành dạng slug (đường dẫn thân thiện với SEO)
+      // lower: true => Chuyển về chữ thường
       const keyword = slugify(req.query.keyword, {
         lower: true
       });
+
+      // Tìm kiếm theo Regex, (keyword, flag)
       const keywordRegex = new RegExp(keyword);
       find.slug = keywordRegex;
     }
