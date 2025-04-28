@@ -174,6 +174,38 @@ module.exports.deleteDestroyPatch = async (req, res) => {
             message: "Id không hợp lệ!"
         })
     }
+}
+
+module.exports.trashChangeMultiPatch = async (req, res) => {
+    try {
+        const { option, ids } = req.body;
+    
+        switch (option) {
+            case "undo":
+            await Tour.updateMany({
+                _id: { $in: ids }
+            }, {
+                deleted: false
+            });
+            req.flash("success", "Khôi phục thành công!");
+            break;
+            case "delete-destroy":
+            await Tour.deleteMany({
+                _id: { $in: ids }
+            });
+            req.flash("success", "Xóa viễn viễn thành công!");
+            break;
+        }
+    
+        res.json({
+            code: "success"
+        })
+    } catch (error) {
+        res.json({
+            code: "error",
+            message: "Id không tồn tại trong hệ thông!"
+        })
+    }
 }  
 
 module.exports.createPost = async (req, res) => {
