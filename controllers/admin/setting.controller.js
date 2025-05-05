@@ -1,5 +1,8 @@
 const SettingWebsiteInfo = require("../../models/setting-website-info.model")
 
+const permissionConfig = require("../../config/permission");
+const Role = require("../../models/role.model");
+
 module.exports.list = async (req, res) => {
   res.render("admin/pages/setting-list", {
     pageTitle: "Cài đặt chung"
@@ -67,6 +70,22 @@ module.exports.roleList = async (req, res) => {
 
 module.exports.roleCreate = async (req, res) => {
   res.render("admin/pages/setting-role-create", {
-    pageTitle: "Tạo nhóm quyền"
+    pageTitle: "Tạo nhóm quyền",
+    permissionList: permissionConfig.permissionList
   })
+}
+
+module.exports.roleCreatePost = async (req, res) => {
+    // Lấy biến account thông qua middleware auth
+    req.body,createdBy = req.account.id;
+    req.body.updatedBy = req.account.id;
+
+    const newRecord = new Role(req.body);
+    await newRecord.save();
+
+    req.flash("success", "Tạo nhóm quyền thành công!");
+
+    res.json({
+      code: "success"
+    })
 }
