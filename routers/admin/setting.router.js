@@ -12,8 +12,7 @@ router.get('/list', settingController.list)
 
 router.get('/website-info', settingController.websiteInfo)
 
-router.patch(
-    '/website-info',
+router.patch('/website-info',
     // upload 2 files: logo and favicon, read more at multer documentation
     upload.fields(
         [
@@ -21,12 +20,15 @@ router.patch(
           { name: 'favicon', maxCount: 1 }
         ]
     ),   
-    settingController.websiteInfoPatch
-)
+    settingController.websiteInfoPatch)
 
 router.get('/account-admin/list', settingController.accountAdminList)
 
 router.get('/account-admin/create', settingController.accountAdminCreate)
+
+router.post('/account-admin/create', 
+  upload.single("avatar"),
+  settingController.accountAdminCreatePost)
 
 router.get('/role/list', settingController.roleList)
 
