@@ -44,6 +44,9 @@ module.exports.verifyToken = async (req, res, next) => {
         // Use local in files PUG, variable: account
         res.locals.account = existAccount;
 
+        // Tất cả các trang chạy qua file middleware này đều có mảng permissions
+        res.locals.permissions = role.permissions;
+
         next();
     } catch (error) {
         res.clearCookie("token");

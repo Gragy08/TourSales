@@ -18,5 +18,105 @@ module.exports.permissionList = [
     {
       label: "Xóa danh mục",
       value: "category-delete"
+    },
+    {
+      label: "Thùng rác danh mục",
+      value: "category-trash"
+    },
+    {
+      label: "Xem Tour",
+      value: "tour-view"
+    },
+    {
+      label: "Tạo Tour",
+      value: "tour-create"
+    },
+    {
+      label: "Sửa Tour",
+      value: "tour-edit"
+    },
+    {
+      label: "Xóa Tour",
+      value: "tour-delete"
+    },
+    {
+      label: "Thùng rác Tour",
+      value: "tour-trash"
+    },
+    {
+      label: "Xem Đơn hàng",
+      value: "order-view"
+    },
+    {
+      label: "Tạo Đơn hàng",
+      value: "order-create"
+    },
+    {
+      label: "Sửa Đơn hàng",
+      value: "order-edit"
+    },
+    {
+      label: "Xóa Đơn hàng",
+      value: "order-delete"
+    },
+    {
+      label: "Thùng rác Đơn hàng",
+      value: "order-trash"
+    },
+    {
+      label: "Xem Người dùng",
+      value: "user-view"
+    },
+    {
+      label: "Tạo Người dùng",
+      value: "user-create"
+    },
+    {
+      label: "Sửa Người dùng",
+      value: "user-edit"
+    },
+    {
+      label: "Xóa Người dùng",
+      value: "user-delete"
+    },
+    {
+      label: "Thùng rác Người dùng",
+      value: "user-trash"
+    },
+    {
+      label: "Xem Liên hệ",
+      value: "contact-view"
+    },
+    {
+      label: "Tạo Liên hệ",
+      value: "contact-create"
+    },
+    {
+      label: "Sửa Liên hệ",
+      value: "contact-edit"
+    },
+    {
+      label: "Xóa Liên hệ",
+      value: "contact-delete"
+    },
+    {
+      label: "Thùng rác Liên hệ",
+      value: "contact-trash"
+    },
+    {
+      label: "Xem Cài đặt chung",
+      value: "general-settings-view"
+    },
+    {
+      label: "Xem Thông tin website",
+      value: "website-info-view"
+    },
+    {
+      label: "Xem Tài khoản quản trị",
+      value: "account-admin-view"
+    },
+    {
+      label: "Xem Nhóm quyền",
+      value: "role-view"
     }
 ];
