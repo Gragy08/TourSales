@@ -16,6 +16,8 @@ const upload = multer({ storage: cloudinaryHelper.storage});
 
 router.get('/list', categoryController.list)
 
+router.get('/trash', categoryController.trash)
+
 router.get('/create', categoryController.create)
 
 // avarta is a name of field that FE send to BE
@@ -28,5 +30,11 @@ router.patch('/edit/:id', upload.single('avatar'), categoryValidate.createPost, 
 router.patch('/delete/:id', categoryController.deletePatch)
 
 router.patch('/change-multi', categoryController.changeMultiPatch)
+
+router.patch('/undo/:id', categoryController.undoPatch)
+
+router.patch('/delete-destroy/:id', categoryController.deleteDestroyPatch)
+
+router.patch('/trash/change-multi', categoryController.trashChangeMultiPatch)
 
 module.exports = router;
