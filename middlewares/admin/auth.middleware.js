@@ -40,6 +40,8 @@ module.exports.verifyToken = async (req, res, next) => {
         // Add to object req variable: account
         req.account = existAccount;
 
+        req.permissions = role.permissions;
+
         // Generate User's Info into interface
         // Use local in files PUG, variable: account
         res.locals.account = existAccount;

@@ -94,7 +94,6 @@ module.exports.edit = async (req, res) => {
       res.redirect(`/${pathAdmin}/tour/list`);
     }
 }
-  
 
 module.exports.trash = async (req, res) => {
     const find = {
@@ -133,6 +132,14 @@ module.exports.trash = async (req, res) => {
 }
 
 module.exports.undoPatch = async (req, res) => {
+    if(!req.permissions.includes("tour-trash")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
+
     try {
         const id = req.params.id;
         
@@ -156,6 +163,14 @@ module.exports.undoPatch = async (req, res) => {
 }
  
 module.exports.deleteDestroyPatch = async (req, res) => {
+    if(!req.permissions.includes("tour-trash")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
+
     try {
         const id = req.params.id;
         
@@ -177,6 +192,14 @@ module.exports.deleteDestroyPatch = async (req, res) => {
 }
 
 module.exports.trashChangeMultiPatch = async (req, res) => {
+    if(!req.permissions.includes("tour-trash")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
+
     try {
         const { option, ids } = req.body;
     
@@ -209,6 +232,13 @@ module.exports.trashChangeMultiPatch = async (req, res) => {
 }  
 
 module.exports.createPost = async (req, res) => {
+    if(!req.permissions.includes("tour-create")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
 
     // Format lại dữ liệu trưóc khi lưu vào DB
     // Phần danh mục
@@ -254,6 +284,14 @@ module.exports.createPost = async (req, res) => {
 }
 
 module.exports.editPatch = async (req, res) => {
+    if(!req.permissions.includes("tour-edit")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
+
     try {
         const id = req.params.id;
     
@@ -303,6 +341,14 @@ module.exports.editPatch = async (req, res) => {
 }
  
 module.exports.deletePatch = async (req, res) => {
+    if(!req.permissions.includes("tour-delete")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
+
     try {
       const id = req.params.id;
       
