@@ -104,10 +104,6 @@ module.exports.permissionList = [
       value: "contact-trash"
     },
     {
-      label: "Xem Cài đặt chung",
-      value: "general-settings-view"
-    },
-    {
       label: "Xem Thông tin website",
       value: "website-info-view"
     },
@@ -116,7 +112,39 @@ module.exports.permissionList = [
       value: "account-admin-view"
     },
     {
+      label: "Tạo Tài khoản quản trị",
+      value: "account-admin-create"
+    },
+    {
+      label: "Sửa Tài khoản quản trị",
+      value: "account-admin-edit"
+    },
+    {
+      label: "Xóa Tài khoản quản trị",
+      value: "account-admin-delete"
+    },
+    {
+      label: "Thùng rác Tài khoản quản trị",
+      value: "account-admin-trash"
+    },
+    {
       label: "Xem Nhóm quyền",
       value: "role-view"
+    },
+    {
+      label: "Tạo Nhóm quyền",
+      value: "role-create"
+    },
+    {
+      label: "Sửa Nhóm quyền",
+      value: "role-edit"
+    },
+    {
+      label: "Xóa Nhóm quyền",
+      value: "role-delete"
+    },
+    {
+      label: "Thùng rác Nhóm quyền",
+      value: "role-trash"
     }
 ];

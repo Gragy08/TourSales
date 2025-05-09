@@ -25,9 +25,8 @@ nav.sider
         a(href=`/${pathAdmin}/contact/list`) <i class="fa-solid fa-user-group"></i> Thông tin liên hệ
   hr
   ul.inner-menu
-    if (permissions.includes("general-settings-view"))
-      li
-        a(href=`/${pathAdmin}/setting/list`) <i class="fa-solid fa-gear"></i> Cài đặt chung
+    li
+      a(href=`/${pathAdmin}/setting/list`) <i class="fa-solid fa-gear"></i> Cài đặt chung
     li
       a(href=`/${pathAdmin}/profile/edit`) <i class="fa-solid fa-user-gear"></i> Thông tin cá nhân
     li
