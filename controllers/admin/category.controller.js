@@ -241,26 +241,35 @@ module.exports.create = async (req, res) => {
     })
 }
 
+// Added BE Decentralization(Phan quyen)
 module.exports.createPost = async (req, res) => {
-    if(req.body.position) {
-      req.body.position = parseInt(req.body.position);
-    } else {
-      const totalRecord = await Category.countDocuments({});
-      req.body.position = totalRecord + 1;
-    }
-  
-    req.body.createdBy = req.account.id;
-    req.body.updatedBy = req.account.id;
-    req.body.avatar = req.file ? req.file.path : "";
-  
-    const newRecord = new Category(req.body);
-    await newRecord.save();
-  
-    req.flash("success", "Tạo danh mục thành công!");
-  
+  if(!req.permissions.includes("category-create")) {
     res.json({
-      code: "success"
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
     })
+    return;
+  }
+
+  if(req.body.position) {
+    req.body.position = parseInt(req.body.position);
+  } else {
+    const totalRecord = await Category.countDocuments({});
+    req.body.position = totalRecord + 1;
+  }
+
+  req.body.createdBy = req.account.id;
+  req.body.updatedBy = req.account.id;
+  req.body.avatar = req.file ? req.file.path : "";
+
+  const newRecord = new Category(req.body);
+  await newRecord.save();
+
+  req.flash("success", "Tạo danh mục thành công!");
+
+  res.json({
+    code: "success"
+  })
 }  
 
 module.exports.edit = async (req, res) => {
@@ -283,43 +292,61 @@ module.exports.edit = async (req, res) => {
     })
 }
 
+// Added BE Decentralization(Phan quyen)
 module.exports.editPatch = async (req, res) => {
-    try {
-      const id = req.params.id;
-  
-      if(req.body.position) {
-        req.body.position = parseInt(req.body.position);
-      } else {
-        const totalRecord = await Category.countDocuments({});
-        req.body.position = totalRecord + 1;
-      }
-  
-      req.body.updatedBy = req.account.id;
-      if(req.file) {
-        req.body.avatar = req.file.path;
-      } else {
-        delete req.body.avatar;
-      }
-  
-      await Category.updateOne({
-        _id: id,
-        deleted: false
-      }, req.body)
-  
-      req.flash("success", "Cập nhật danh mục thành công!");
-  
-      res.json({
-        code: "success"
-      })
-    } catch (error) {
-      res.json({
+  if(!req.permissions.includes("category-edit")) {
+    res.json({
         code: "error",
-        message: "Id không hợp lệ!"
-      })
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
+  try {
+    const id = req.params.id;
+
+    if(req.body.position) {
+      req.body.position = parseInt(req.body.position);
+    } else {
+      const totalRecord = await Category.countDocuments({});
+      req.body.position = totalRecord + 1;
     }
+
+    req.body.updatedBy = req.account.id;
+    if(req.file) {
+      req.body.avatar = req.file.path;
+    } else {
+      delete req.body.avatar;
+    }
+
+    await Category.updateOne({
+      _id: id,
+      deleted: false
+    }, req.body)
+
+    req.flash("success", "Cập nhật danh mục thành công!");
+
+    res.json({
+      code: "success"
+    })
+  } catch (error) {
+    res.json({
+      code: "error",
+      message: "Id không hợp lệ!"
+    })
+  }
 }  
 
+// Added BE Decentralization(Phan quyen)
 module.exports.deletePatch = async (req, res) => {
+  if(!req.permissions.includes("category-delete")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const id = req.params.id;
     
@@ -345,7 +372,16 @@ module.exports.deletePatch = async (req, res) => {
   }
 }
 
+// Added BE Decentralization(Phan quyen)
 module.exports.changeMultiPatch = async (req, res) => {
+  if(!req.permissions.includes("category-edit")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
 
     const { option, ids } = req.body;
@@ -386,7 +422,16 @@ module.exports.changeMultiPatch = async (req, res) => {
   }
 }
 
+// Added BE Decentralization(Phan quyen)
 module.exports.undoPatch = async (req, res) => {
+  if(!req.permissions.includes("category-trash")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const id = req.params.id;
     
@@ -409,7 +454,16 @@ module.exports.undoPatch = async (req, res) => {
   }
 }
 
+// Added BE Decentralization(Phan quyen)
 module.exports.deleteDestroyPatch = async (req, res) => {
+  if(!req.permissions.includes("category-trash")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const id = req.params.id;
     
@@ -430,7 +484,16 @@ module.exports.deleteDestroyPatch = async (req, res) => {
   }
 }
 
+// Added BE Decentralization(Phan quyen)
 module.exports.trashChangeMultiPatch = async (req, res) => {
+  if(!req.permissions.includes("category-trash")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const { option, ids } = req.body;
 

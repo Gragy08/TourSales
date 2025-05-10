@@ -40,6 +40,8 @@ module.exports.verifyToken = async (req, res, next) => {
         // Add to object req variable: account
         req.account = existAccount;
 
+        // Add to object req variable: permissions
+        // Get permissions of role
         req.permissions = role.permissions;
 
         // Generate User's Info into interface
