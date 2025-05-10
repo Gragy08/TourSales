@@ -65,11 +65,40 @@ module.exports.list = async (req, res) => {
     }
     // End Search
 
+    // Pagination
+    // 3 items each page
+    const limitItems = 3;
+    // current page 
+    let page = 1;
+    if(req.query.page) {
+      // Lấy giá trị sau dấu "?" trên url
+      const currentPage =  parseInt(req.query.page);
+      if(currentPage > 0) {
+        page = currentPage;
+      }
+    }
+    const totalItems = await Tour.countDocuments(find);
+    const totalPages = Math.max(1, Math.ceil(totalItems / limitItems));
+    if(page > totalPages) {
+      page = totalPages;
+    }
+    const skip = (page - 1) * limitItems;
+
+    // Return the interface of the necessary variables
+    const pagination = {
+      skip: skip,
+      totalItems: totalItems,
+      totalPages: totalPages
+    }
+    // End Pagination
+
     const tourList = await Tour
         .find(find)
         .sort({
             position: "desc"
         })
+        .limit(limitItems)
+        .skip(skip)
 
     for (const item of tourList) {
         if(item.createdBy) {
@@ -96,7 +125,8 @@ module.exports.list = async (req, res) => {
         tourList: tourList,
         accountAdminList: accountAdminList,
         categoryList: categoryList,
-        keyword: req.query.keyword || ""
+        keyword: req.query.keyword || "",
+        pagination: pagination
     })
 }
 
