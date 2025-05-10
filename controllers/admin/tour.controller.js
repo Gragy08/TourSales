@@ -56,6 +56,15 @@ module.exports.list = async (req, res) => {
         .select("id name");
     // End Filtered by category
 
+    // Search
+    if (req.query.keyword) {
+        const keyword = req.query.keyword.trim();
+        find.$or = [
+            { name: { $regex: keyword, $options: "i" } }
+        ];
+    }
+    // End Search
+
     const tourList = await Tour
         .find(find)
         .sort({
@@ -86,7 +95,8 @@ module.exports.list = async (req, res) => {
         pageTitle: "Quản lý tour",
         tourList: tourList,
         accountAdminList: accountAdminList,
-        categoryList: categoryList
+        categoryList: categoryList,
+        keyword: req.query.keyword || ""
     })
 }
 
