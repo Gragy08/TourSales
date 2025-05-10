@@ -8,7 +8,53 @@ const AccountAdmin = require("../../models/account-admin.model");
 module.exports.list = async (req, res) => {
     const find = {
         deleted: false
+    };
+
+    // Filtered by status
+    if(req.query.status) {
+        find.status = req.query.status;
     }
+    // End Filtered by status
+
+    // Filtered by createdBy
+    if(req.query.createdBy) {
+        find.createdBy = req.query.createdBy;
+    }
+
+    // Get list of account admin
+    const accountAdminList = await AccountAdmin
+        .find({})
+        .select("id fullName");
+    // End Get list of account admin
+    // End Filtered by createdBy
+
+    // Filtered by createAt
+    const dateFilter = {};
+
+    if(req.query.startDate) {
+        const startDate = moment(req.query.startDate).startOf("date").toDate();
+        dateFilter.$gte = startDate;
+    }
+
+    if(req.query.endDate) {
+        const endDate = moment(req.query.endDate).endOf("date").toDate();
+        dateFilter.$lte = endDate;
+    }
+
+    if(Object.keys(dateFilter).length > 0) {
+        find.createdAt = dateFilter;
+    }
+    // End Filtered by createAt
+
+    // Filtered by category
+    if(req.query.category) {
+        find.category = req.query.category;
+    }
+
+    const categoryList = await Category
+        .find({})
+        .select("id name");
+    // End Filtered by category
 
     const tourList = await Tour
         .find(find)
@@ -38,7 +84,9 @@ module.exports.list = async (req, res) => {
 
     res.render("admin/pages/tour-list", {
         pageTitle: "Quản lý tour",
-        tourList: tourList
+        tourList: tourList,
+        accountAdminList: accountAdminList,
+        categoryList: categoryList
     })
 }
 

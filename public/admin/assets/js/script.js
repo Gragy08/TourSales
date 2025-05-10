@@ -1238,6 +1238,34 @@ if(filterCreatedBy) {
 }
 // End Filter Created By
 
+// Filter Category
+const filterCategory = document.querySelector("[filter-category]");
+if(filterCategory) {
+  // Phải nhân bản lên thành một đường link mới thì mới có thể sử dụng hàm set và delete như bên dưới
+  const url = new URL(window.location.href);
+
+  filterCategory.addEventListener("change", () => {
+    const value = filterCategory.value;
+
+    // Add keys value to URL
+    if(value) {
+      // Add key value afted "?" sign in url
+      url.searchParams.set("category", value);
+    } else {
+      url.searchParams.delete("category");
+    }
+
+    window.location.href = url.href;
+  })
+
+  // Display default choose in status filter input type select
+  const valueCurrent = url.searchParams.get("category");
+  if(valueCurrent) {
+    filterCategory.value = valueCurrent;
+  }
+}
+// End Filter Category
+
 // Filter Start Date
 const filterStartDate = document.querySelector("[filter-start-date]");
 if(filterStartDate) {
