@@ -510,6 +510,14 @@ module.exports.changeMultiPatch = async (req, res) => {
     switch (option) {
       case "active":
       case "inactive":
+        if(!req.permissions.includes("tour-edit")) {
+          res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+          })
+          return;
+        }
+
         await Tour.updateMany({
           _id: { $in: ids }
         }, {
@@ -518,6 +526,14 @@ module.exports.changeMultiPatch = async (req, res) => {
         req.flash("success", "Đổi trạng thái thành công!");
         break;
       case "delete":
+        if(!req.permissions.includes("tour-delete")) {
+          res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+          })
+          return;
+        }
+
         await Tour.updateMany({
           _id: { $in: ids }
         }, {

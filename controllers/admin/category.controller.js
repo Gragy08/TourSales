@@ -374,14 +374,6 @@ module.exports.deletePatch = async (req, res) => {
 
 // Added BE Decentralization(Phan quyen)
 module.exports.changeMultiPatch = async (req, res) => {
-  if(!req.permissions.includes("category-edit")) {
-    res.json({
-        code: "error",
-        message: "Bạn không có quyền thực hiện chức năng này!"
-    })
-    return;
-  }
-
   try {
 
     const { option, ids } = req.body;
@@ -389,6 +381,14 @@ module.exports.changeMultiPatch = async (req, res) => {
     switch (option) {
       case "active":
       case "inactive":
+        if(!req.permissions.includes("category-edit")) {
+          res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+          })
+          return;
+        }
+
         await Category.updateMany({
           // Tìm id trong mảng ids
           _id: { $in: ids }
@@ -399,6 +399,14 @@ module.exports.changeMultiPatch = async (req, res) => {
         break;
 
       case "delete":
+        if(!req.permissions.includes("category-delete")) {
+          res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+          })
+          return;
+        }
+
         await Category.updateMany({
           _id: { $in: ids }
         }, {
