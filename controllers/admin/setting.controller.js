@@ -277,7 +277,28 @@ module.exports.accountAdminUndoPatch = async (req, res) => {
       deleted: false
     })
 
-    req.flash("success", "Khôi phục tour thành công!");
+    req.flash("success", "Khôi phục Tài khoản quản trị thành công!");
+
+    res.json({
+      code: "success"
+    })
+  } catch (error) {
+    res.json({
+      code: "error",
+      message: "Id không hợp lệ!"
+    })
+  }
+}
+
+module.exports.accountAdminDeleteDestroyPatch = async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    await AccountAdmin.deleteOne({
+      _id: id
+    })
+
+    req.flash("success", "Đã xóa vĩnh viễn Tài khoản quản trị thành công!");
 
     res.json({
       code: "success"
