@@ -20,7 +20,7 @@ block main
             button Áp dụng
         .inner-search
           <i class="fa-solid fa-magnifying-glass"></i>
-          input(type="text" placeholder="Tìm kiếm" search)
+          input(type="text" placeholder="Tìm kiếm" name="keyword" value=keyword search)
         .inner-button-create
           a(href=`/${pathAdmin}/setting/account-admin/list`) Quay lại trang Tài khoản quản trị
     //- End Section 5
@@ -75,10 +75,15 @@ block main
     //- End Section 6
 
     //- Section 7
+    //- .section-7
+    //-   span(class="inner-label") Hiển thị 1 - 9 của 78
+    //-   select(class="inner-pagination")
+    //-     option Trang 1
+    //-     option Trang 2
+    //-     option Trang 3
     .section-7
-      span(class="inner-label") Hiển thị 1 - 9 của 78
-      select(class="inner-pagination")
-        option Trang 1
-        option Trang 2
-        option Trang 3
+      span(class="inner-label") Hiển thị #{pagination.skip + 1} - #{pagination.skip + accountAdminList.length} của #{pagination.totalItems}
+      select(class="inner-pagination" pagination)
+        - for (let i = 1; i <= pagination.totalPages; i++)
+          option(value=i) Trang #{i}
     //- End Section 7

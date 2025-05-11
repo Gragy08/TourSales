@@ -210,12 +210,55 @@ module.exports.accountAdminDeletePatch = async (req, res) => {
 }
 
 module.exports.accountAdminTrash = async (req, res) => {
+  const find = {
+    deleted: true
+  };
+
+  // Search
+  if (req.query.keyword) {
+      const keyword = req.query.keyword.trim();
+      find.$or = [
+          { fullName: { $regex: keyword, $options: "i" } }
+      ];
+  }
+  // End Search
+
+  // Pagination
+    // 3 items each page
+    const limitItems = 3;
+    // current page 
+    let page = 1;
+    if(req.query.page) {
+      // Lấy giá trị sau dấu "?" trên url
+      const currentPage =  parseInt(req.query.page);
+      if(currentPage > 0) {
+        page = currentPage;
+      }
+    }
+    const totalItems = await AccountAdmin.countDocuments(find);
+    const totalPages = Math.max(1, Math.ceil(totalItems / limitItems));
+    if(page > totalPages) {
+      page = totalPages;
+    }
+    const skip = (page - 1) * limitItems;
+
+    // Return the interface of the necessary variables
+    const pagination = {
+      skip: skip,
+      totalItems: totalItems,
+      totalPages: totalPages
+    }
+  // End Pagination
+
   const accountAdminList = await AccountAdmin
     .find({
       deleted: true
-    }).sort({
+    })
+    .sort({
       createdAt: "desc"
-    });
+    })
+    .limit(limitItems)
+    .skip(skip)
 
   for(const item of accountAdminList) {
     if(item.role) {
@@ -231,7 +274,9 @@ module.exports.accountAdminTrash = async (req, res) => {
 
   res.render("admin/pages/setting-account-admin-trash", {
     pageTitle: "Thùng rác Tài khoản quản trị",
-    accountAdminList: accountAdminList
+    accountAdminList: accountAdminList,
+    keyword: req.query.keyword || "",
+    pagination: pagination
   })
 }
 
