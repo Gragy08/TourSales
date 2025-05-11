@@ -32,7 +32,7 @@ block main
           thead
             tr
               th(class="inner-center")
-                input(type="checkbox" class="inner-check")
+                input(type="checkbox" class="inner-check" check-all)
               th Họ tên
               th(class="inner-center") Ảnh đại diện
               th Email
@@ -45,7 +45,7 @@ block main
             each item in accountAdminList
               tr
                 td(class="inner-center")
-                  input(type="checkbox" class="inner-check")
+                  input(type="checkbox" class="inner-check" check-item=item.id)
                 td #{item.fullName}
                 td(class="inner-center")
                   img(src=item.avatar class="inner-avatar")
