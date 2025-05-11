@@ -60,7 +60,7 @@ module.exports.accountAdminList = async (req, res) => {
     .find({
       deleted: false
     }).sort({
-      createdAt: "desc"
+      createdAt: "asc"
     });
 
   for(const item of accountAdminList) {
@@ -263,6 +263,29 @@ module.exports.accountAdminTrashChangeMultiPatch = async (req, res) => {
     res.json({
       code: "error",
       message: "Id không tồn tại trong hệ thông!"
+    })
+  }
+}
+
+module.exports.accountAdminUndoPatch = async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    await AccountAdmin.updateOne({
+      _id: id
+    }, {
+      deleted: false
+    })
+
+    req.flash("success", "Khôi phục tour thành công!");
+
+    res.json({
+      code: "success"
+    })
+  } catch (error) {
+    res.json({
+      code: "error",
+      message: "Id không hợp lệ!"
     })
   }
 }

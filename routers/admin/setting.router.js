@@ -45,6 +45,8 @@ router.patch('/account-admin/delete/:id', settingController.accountAdminDeletePa
 router.get('/account-admin/trash', settingController.accountAdminTrash)
 
 router.patch('/account-admin/trash/change-multi', settingController.accountAdminTrashChangeMultiPatch)
+
+router.patch('/account-admin/undo/:id', settingController.accountAdminUndoPatch)
 // End Account Admin Page
 
 // Role Page
