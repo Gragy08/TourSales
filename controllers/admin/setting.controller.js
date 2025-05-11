@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const permissionConfig = require("../../config/permission");
 const Role = require("../../models/role.model");
 const AccountAdmin = require("../../models/account-admin.model");
+const { model } = require("mongoose");
 
 module.exports.list = async (req, res) => {
   res.render("admin/pages/setting-list", {
@@ -182,7 +183,37 @@ module.exports.accountAdminEditPatch = async (req, res) => {
   }
 }
 
+module.exports.accountAdminDeletePatch = async (req, res) => {
+  try {
+    const id = req.params.id;
 
+    await AccountAdmin.updateOne({
+      _id: id,
+      deleted: false
+    }, {
+      deleted: true,
+      deletedBy: req.account.id,
+      deletedAt: Date.now()
+    });
+
+    req.flash("success", "Xóa tài khoản quản trị thành công!");
+
+    res.json({
+      code: "success"
+    })
+  } catch (error) {
+    res.json({
+      code: "error",
+      message: "Id không tồn tại!"
+    })
+  }
+}
+
+// module.exports.accountAdminTrash = async (req, res) => {
+//   res.render("admin/pages/setting-account-admin-trash", {
+//     pageTitle: "Thùng rác Tài khoản quản trị"
+//   })
+// }
 // End Account Admin Page
 
 // Role Page

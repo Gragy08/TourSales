@@ -32,11 +32,14 @@ router.post('/account-admin/create',
 
 router.get('/account-admin/edit/:id', settingController.accountAdminEdit)
 
-router.patch(
-  '/account-admin/edit/:id', 
+router.patch('/account-admin/edit/:id', 
   upload.single("avatar"), 
   settingController.accountAdminEditPatch
-)  
+)
+
+router.patch('/account-admin/delete/:id', settingController.accountAdminDeletePatch)
+
+// router.get('/trash', settingController.accountAdminTrash)
 
 router.get('/role/list', settingController.roleList)
 
