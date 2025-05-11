@@ -39,7 +39,7 @@ router.patch('/account-admin/edit/:id',
 
 router.patch('/account-admin/delete/:id', settingController.accountAdminDeletePatch)
 
-// router.get('/trash', settingController.accountAdminTrash)
+router.get('/account-admin/trash', settingController.accountAdminTrash)
 
 router.get('/role/list', settingController.roleList)
 

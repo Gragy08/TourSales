@@ -209,11 +209,31 @@ module.exports.accountAdminDeletePatch = async (req, res) => {
   }
 }
 
-// module.exports.accountAdminTrash = async (req, res) => {
-//   res.render("admin/pages/setting-account-admin-trash", {
-//     pageTitle: "Thùng rác Tài khoản quản trị"
-//   })
-// }
+module.exports.accountAdminTrash = async (req, res) => {
+  const accountAdminList = await AccountAdmin
+    .find({
+      deleted: true
+    }).sort({
+      createdAt: "desc"
+    });
+
+  for(const item of accountAdminList) {
+    if(item.role) {
+      const roleInfo = await Role.findOne({
+        _id: item.role
+      });
+
+      if(roleInfo) {
+        item.roleName = roleInfo.name;
+      }
+    }
+  }
+
+  res.render("admin/pages/setting-account-admin-trash", {
+    pageTitle: "Thùng rác Tài khoản quản trị",
+    accountAdminList: accountAdminList
+  })
+}
 // End Account Admin Page
 
 // Role Page
