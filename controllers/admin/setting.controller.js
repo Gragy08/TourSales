@@ -10,6 +10,7 @@ module.exports.list = async (req, res) => {
   })
 }
 
+// Website Info Page
 module.exports.websiteInfo = async (req, res) => {
   const settingWebsiteInfo = await SettingWebsiteInfo.findOne({});
 
@@ -50,7 +51,9 @@ module.exports.websiteInfoPatch = async (req, res) => {
     code: "success"
   })
 }
+// End Website Info Page
 
+// Account Admin Page
 module.exports.accountAdminList = async (req, res) => {
   const accountAdminList = await AccountAdmin
     .find({
@@ -179,6 +182,10 @@ module.exports.accountAdminEditPatch = async (req, res) => {
   }
 }
 
+
+// End Account Admin Page
+
+// Role Page
 module.exports.roleList = async (req, res) => {
   const roleList = await Role.find({
     deleted: false
@@ -258,3 +265,4 @@ module.exports.roleEditPatch = async (req, res) => {
         })
     }    
 }
+// End Role Page

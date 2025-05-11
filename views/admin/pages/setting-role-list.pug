@@ -18,10 +18,11 @@ block main
         .inner-search
           <i class="fa-solid fa-magnifying-glass"></i>
           input(type="text" placeholder="Tìm kiếm")
-        .inner-button-create
-          a(
-            href=`/${pathAdmin}/setting/role/create`
-          ) + Tạo mới
+        if (permissions.includes("role-create"))
+          .inner-button-create
+            a(
+              href=`/${pathAdmin}/setting/role/create`
+            ) + Tạo mới
         .inner-button-create
           a(href=`/${pathAdmin}/setting/list`) Quay lại trang Cài đặt chung
         if (permissions.includes("role-trash"))
