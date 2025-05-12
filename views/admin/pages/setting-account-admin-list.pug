@@ -10,21 +10,24 @@ block main
         .inner-item.inner-label
           <i class="fa-solid fa-filter"></i> Bộ lọc
         .inner-item
-          select
+          select(filter-status)
             option(value="") Trạng thái
-            option(value="") Hoạt động
-            option(value="") Tạm dừng
+            option(value="initial") Khởi tạo
+            option(value="active") Hoạt động
+            option(value="inactive") Tạm dừng
         .inner-item.inner-date
-          input(type="date")
+          input(type="date" filter-start-date)
           span -
-          input(type="date")
+          input(type="date" filter-end-date)
         .inner-item
-          select
+          select(filter-role)
             option(value="") Nhóm quyền
-            option(value="") Quản trị viên
-            option(value="") Quản lý tour
-            option(value="") Quản lý đơn hàng
-        .inner-item.inner-reset
+            each item in roleList
+              option(value=item._id) #{item.name}
+            //- option(value="") Quản trị viên
+            //- option(value="") Quản lý tour
+            //- option(value="") Quản lý đơn hàng
+        .inner-item.inner-reset(filter-reset)
           <i class="fa-solid fa-rotate-left"></i> Xóa bộ lọc
     //- End Section 4
 

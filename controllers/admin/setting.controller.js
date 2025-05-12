@@ -4,6 +4,7 @@ const permissionConfig = require("../../config/permission");
 const Role = require("../../models/role.model");
 const AccountAdmin = require("../../models/account-admin.model");
 const { model } = require("mongoose");
+const moment = require("moment");
 
 module.exports.list = async (req, res) => {
   res.render("admin/pages/setting-list", {
@@ -56,10 +57,50 @@ module.exports.websiteInfoPatch = async (req, res) => {
 
 // Account Admin Page
 module.exports.accountAdminList = async (req, res) => {
-  const accountAdminList = await AccountAdmin
+  const find = {
+    deleted: false
+  };
+
+  // Filterd by status
+  if(req.query.status) {
+    find.status = req.query.status
+  }
+  // End Filterd by status
+
+  // Filter by CreatedDate
+  const dateFilter = {}
+
+  if(req.query.startDate) {
+    // Phải định dạng lại bằng thư viện moment để khớp với định dạng của MongoDB
+    const startDate = moment(req.query.startDate).startOf("date").toDate();
+    dateFilter.$gte = startDate;
+  }
+
+  if(req.query.endDate) {
+    // Phải định dạng lại bằng thư viện moment để khớp với định dạng của MongoDB
+    const endDate = moment(req.query.endDate).endOf("date").toDate();
+    dateFilter.$lte = endDate;
+  }
+
+  if(Object.keys(dateFilter).length > 0) {
+    find.createdAt = dateFilter;
+  }
+  // End Filter by CreatedDate
+
+  // Filterd by role
+  if(req.query.role) {
+    find.role = req.query.role
+  }
+  // End Filterd by role
+
+  const roleList = await Role
     .find({
       deleted: false
-    }).sort({
+    });
+
+  const accountAdminList = await AccountAdmin
+    .find(find)
+    .sort({
       createdAt: "asc"
     });
 
@@ -77,7 +118,8 @@ module.exports.accountAdminList = async (req, res) => {
 
   res.render("admin/pages/setting-account-admin-list", {
     pageTitle: "Tài khoản quản trị",
-    accountAdminList: accountAdminList
+    accountAdminList: accountAdminList,
+    roleList: roleList
   })
 }
 
