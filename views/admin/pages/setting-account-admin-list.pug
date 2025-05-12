@@ -34,15 +34,18 @@ block main
     //- Section 5
     .section-5
       .inner-wrap
-        .inner-change-status
+        .inner-change-status(
+          change-multi
+          data-api=`/${pathAdmin}/setting/account-admin/change-multi`
+        )
           .inner-item
             select
               option(value="") -- Hành động --
               if (permissions.includes("account-admin-edit"))
-                option(value="") Hoạt động
-                option(value="") Dừng hoạt động
+                option(value="active") Hoạt động
+                option(value="inactive") Dừng hoạt động
               if (permissions.includes("account-admin-trash"))
-                option(value="") Xóa
+                option(value="delete") Xóa
           .inner-item
             button Áp dụng
         .inner-search
@@ -65,7 +68,7 @@ block main
           thead
             tr
               th(class="inner-center")
-                input(type="checkbox" class="inner-check")
+                input(type="checkbox" class="inner-check" check-all)
               th Họ tên
               th(class="inner-center") Ảnh đại diện
               th Email
@@ -78,7 +81,7 @@ block main
             each item in accountAdminList
               tr
                 td(class="inner-center")
-                  input(type="checkbox" class="inner-check")
+                  input(type="checkbox" class="inner-check" check-item=item._id)
                 td #{item.fullName}
                 td(class="inner-center")
                   img(src=item.avatar class="inner-avatar")

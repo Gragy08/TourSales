@@ -397,6 +397,61 @@ module.exports.accountAdminDeleteDestroyPatch = async (req, res) => {
     })
   }
 }
+
+module.exports.accountAdminChangeMultiPatch = async (req, res) => {
+  try {
+    const { option, ids } = req.body;
+
+    switch (option) {
+      case "active":
+      case "inactive":
+        if(!req.permissions.includes("account-admin-edit")) {
+          res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+          })
+          return;
+        }
+
+        await AccountAdmin.updateMany({
+          _id: { $in: ids }
+        }, {
+          status: option
+        })
+        req.flash("success", "Đổi trạng thái thành công!");
+        break;
+
+      case "delete":
+        if(!req.permissions.includes("account-admin-delete")) {
+          res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+          })
+          return;
+        }
+
+        await AccountAdmin.updateMany({
+          _id: { $in: ids }
+        }, {
+          deleted: true,
+          deletedBy: req.account.id,
+          deletedAt: Date.now()
+        })
+        req.flash("success", "Xóa thành công!");
+        break;
+    }
+
+    req.flash("success", "Đổi trạng thái thành công!")
+    res.json({
+      code: "success"
+    })
+  } catch (error) {
+    res.json({
+      code: "error",
+      message: "Id không tồn tại trong hệ thống!"
+    })
+  }
+}
 // End Account Admin Page
 
 // Role Page
