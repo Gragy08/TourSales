@@ -93,6 +93,42 @@ module.exports.accountAdminList = async (req, res) => {
   }
   // End Filterd by role
 
+  // Search
+  if (req.query.keyword) {
+      const keyword = req.query.keyword.trim();
+      find.$or = [
+          { fullName: { $regex: keyword, $options: "i" } }
+      ];
+  }
+  // End Search
+
+  // Pagination
+  // 3 items each page
+  const limitItems = 3;
+  // current page 
+  let page = 1;
+  if(req.query.page) {
+    // Lấy giá trị sau dấu "?" trên url
+    const currentPage =  parseInt(req.query.page);
+    if(currentPage > 0) {
+      page = currentPage;
+    }
+  }
+  const totalItems = await AccountAdmin.countDocuments(find);
+  const totalPages = Math.max(1, Math.ceil(totalItems / limitItems));
+  if(page > totalPages) {
+    page = totalPages;
+  }
+  const skip = (page - 1) * limitItems;
+
+  // Return the interface of the necessary variables
+  const pagination = {
+    skip: skip,
+    totalItems: totalItems,
+    totalPages: totalPages
+  }
+  // End Pagination
+
   const roleList = await Role
     .find({
       deleted: false
@@ -102,7 +138,9 @@ module.exports.accountAdminList = async (req, res) => {
     .find(find)
     .sort({
       createdAt: "asc"
-    });
+    })
+    .limit(limitItems)
+    .skip(skip)
 
   for(const item of accountAdminList) {
     if(item.role) {
@@ -119,7 +157,9 @@ module.exports.accountAdminList = async (req, res) => {
   res.render("admin/pages/setting-account-admin-list", {
     pageTitle: "Tài khoản quản trị",
     accountAdminList: accountAdminList,
-    roleList: roleList
+    roleList: roleList,
+    keyword: req.query.keyword || "",
+    pagination: pagination
   })
 }
 
@@ -134,7 +174,16 @@ module.exports.accountAdminCreate = async (req, res) => {
   })
 }
 
+// Added BE Decentralization
 module.exports.accountAdminCreatePost = async (req, res) => {
+  if(!req.permissions.includes("account-admin-create")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   const existAccount = await AccountAdmin.findOne({
     email: req.body.email
   })
@@ -193,7 +242,16 @@ module.exports.accountAdminEdit = async (req, res) => {
   }
 }
 
+// Added BE Decentralization
 module.exports.accountAdminEditPatch = async (req, res) => {
+  if(!req.permissions.includes("account-admin-edit")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const id = req.params.id;
 
@@ -225,7 +283,16 @@ module.exports.accountAdminEditPatch = async (req, res) => {
   }
 }
 
+// Added BE Decentralization
 module.exports.accountAdminDeletePatch = async (req, res) => {
+  if(!req.permissions.includes("account-admin-delete")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const id = req.params.id;
 
@@ -322,7 +389,16 @@ module.exports.accountAdminTrash = async (req, res) => {
   })
 }
 
+// Added BE Decentralization
 module.exports.accountAdminTrashChangeMultiPatch = async (req, res) => {
+  if(!req.permissions.includes("account-admin-trash")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const { option, ids } = req.body;
 
@@ -354,7 +430,16 @@ module.exports.accountAdminTrashChangeMultiPatch = async (req, res) => {
   }
 }
 
+// Added BE Decentralization
 module.exports.accountAdminUndoPatch = async (req, res) => {
+  if(!req.permissions.includes("account-admin-trash")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const id = req.params.id;
     
@@ -377,7 +462,16 @@ module.exports.accountAdminUndoPatch = async (req, res) => {
   }
 }
 
+// Added BE Decentralization
 module.exports.accountAdminDeleteDestroyPatch = async (req, res) => {
+  if(!req.permissions.includes("account-admin-trash")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const id = req.params.id;
     
@@ -398,6 +492,7 @@ module.exports.accountAdminDeleteDestroyPatch = async (req, res) => {
   }
 }
 
+// Added BE Decentralization
 module.exports.accountAdminChangeMultiPatch = async (req, res) => {
   try {
     const { option, ids } = req.body;
