@@ -666,4 +666,40 @@ module.exports.roleDeletePatch = async (req, res) => {
     })
   }
 }
+
+module.exports.roleChangeMultiPatch = async (req, res) => {
+  try {
+    const { option, ids } = req.body;
+
+    switch (option) {
+      case "delete":
+        if(!req.permissions.includes("role-delete")) {
+          res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+          })
+          return;
+        }
+
+        await Role.updateMany({
+          _id: { $in: ids }
+        }, {
+          deleted: true,
+          deletedBy: req.account.id,
+          deletedAt: Date.now()
+        })
+        req.flash("success", "Xóa thành công!");
+        break;
+    }
+
+    res.json({
+      code: "success"
+    })
+  } catch (error) {
+    res.json({
+      code: "error",
+      message: "Id không tồn tại trong hệ thống!"
+    })
+  }
+}
 // End Role Page
