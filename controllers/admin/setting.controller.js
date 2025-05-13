@@ -713,4 +713,27 @@ module.exports.roleChangeMultiPatch = async (req, res) => {
     })
   }
 }
+
+module.exports.roleUndoPatch = async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    await Role.updateOne({
+      _id: id
+    }, {
+      deleted: false
+    })
+
+    req.flash("success", "Khôi phục Nhóm quyền thành công!");
+
+    res.json({
+      code: "success"
+    })
+  } catch (error) {
+    res.json({
+      code: "error",
+      message: "Id không hợp lệ!"
+    })
+  }
+}
 // End Role Page
