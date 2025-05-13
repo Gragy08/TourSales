@@ -65,6 +65,8 @@ router.get('/role/edit/:id', settingController.roleEdit)
 router.patch('/role/edit/:id', settingController.roleEditPatch)
 
 router.get('/role/trash', settingController.roleTrash)
+
+router.patch('/role/delete/:id', settingController.roleDeletePatch)
 // End Role Page
 
 module.exports = router;

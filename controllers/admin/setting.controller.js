@@ -631,8 +631,39 @@ module.exports.roleEditPatch = async (req, res) => {
 }
 
 module.exports.roleTrash = async (req, res) => {
+  const roleList = await Role.find({
+    deleted: true
+  })
+
   res.render("admin/pages/setting-role-trash", {
     pageTitle: "Thùng rác Nhóm quyền",
+    roleList: roleList
   })
+}
+
+module.exports.roleDeletePatch = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    await Role.updateOne({
+      _id: id,
+      deleted: false
+    }, {
+      deleted: true,
+      deletedBy: req.account.id,
+      deletedAt: Date.now()
+    });
+
+    req.flash("success", "Xóa Nhóm quyền thành công!");
+
+    res.json({
+      code: "success"
+    })
+  } catch (error) {
+    res.json({
+      code: "error",
+      message: "Id không tồn tại!"
+    })
+  }
 }
 // End Role Page
