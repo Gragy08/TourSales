@@ -629,4 +629,10 @@ module.exports.roleEditPatch = async (req, res) => {
         })
     }    
 }
+
+module.exports.roleTrash = async (req, res) => {
+  res.render("admin/pages/setting-role-trash", {
+    pageTitle: "Thùng rác Nhóm quyền",
+  })
+}
 // End Role Page

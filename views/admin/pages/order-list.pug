@@ -2,7 +2,7 @@ extends ../layouts/default.pug
 
 block main
   if (permissions.includes("order-view"))
-    h1.box-title Quản lý đơn hàng
+    h1.box-title #{pageTitle}
 
     //- Section 4
     .section-4

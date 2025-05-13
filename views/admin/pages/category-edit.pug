@@ -4,7 +4,7 @@ include ../mixins/options.pug
 block main
   if (permissions.includes("category-edit"))
 
-    h1.box-title Chỉnh sửa danh mục
+    h1.box-title #{pageTitle}
 
     .section-8
       form#category-edit-form

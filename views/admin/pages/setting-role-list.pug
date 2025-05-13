@@ -2,7 +2,7 @@ extends ../layouts/default.pug
 
 block main
   if (permissions.includes("role-view"))
-    h1.box-title Nhóm quyền
+    h1.box-title #{pageTitle}
 
     //- Section 5
     .section-5
@@ -27,7 +27,7 @@ block main
           a(href=`/${pathAdmin}/setting/list`) Quay lại trang Cài đặt chung
         if (permissions.includes("role-trash"))
           .inner-button-trash
-            a(href=`/${pathAdmin}/role/trash`) Thùng rác
+            a(href=`/${pathAdmin}/setting/role/trash`) Thùng rác
     //- End Section 5
 
     //- Section 6

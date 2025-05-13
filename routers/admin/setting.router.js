@@ -63,6 +63,8 @@ router.post('/role/create', settingController.roleCreatePost)
 router.get('/role/edit/:id', settingController.roleEdit)
 
 router.patch('/role/edit/:id', settingController.roleEditPatch)
+
+router.get('/role/trash', settingController.roleTrash)
 // End Role Page
 
 module.exports = router;
