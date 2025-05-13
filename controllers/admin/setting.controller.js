@@ -579,6 +579,7 @@ module.exports.roleCreate = async (req, res) => {
   })
 }
 
+//
 module.exports.roleCreatePost = async (req, res) => {
     // Lấy biến account thông qua middleware auth
     req.body,createdBy = req.account.id;
@@ -617,6 +618,7 @@ module.exports.roleEdit = async (req, res) => {
     }
 }  
 
+//
 module.exports.roleEditPatch = async (req, res) => {
     try {
         const id = req.params.id;
@@ -652,6 +654,7 @@ module.exports.roleTrash = async (req, res) => {
   })
 }
 
+//
 module.exports.roleDeletePatch = async (req, res) => {
   try {
     const id = req.params.id;
@@ -678,6 +681,7 @@ module.exports.roleDeletePatch = async (req, res) => {
   }
 }
 
+//
 module.exports.roleChangeMultiPatch = async (req, res) => {
   try {
     const { option, ids } = req.body;
@@ -714,6 +718,7 @@ module.exports.roleChangeMultiPatch = async (req, res) => {
   }
 }
 
+//
 module.exports.roleUndoPatch = async (req, res) => {
   try {
     const id = req.params.id;
@@ -725,6 +730,27 @@ module.exports.roleUndoPatch = async (req, res) => {
     })
 
     req.flash("success", "Khôi phục Nhóm quyền thành công!");
+
+    res.json({
+      code: "success"
+    })
+  } catch (error) {
+    res.json({
+      code: "error",
+      message: "Id không hợp lệ!"
+    })
+  }
+}
+
+module.exports.roleDeleteDestroyPatch = async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    await Role.deleteOne({
+      _id: id
+    })
+
+    req.flash("success", "Đã xóa vĩnh viễn Nhóm quyềnquyền thành công!");
 
     res.json({
       code: "success"
