@@ -579,20 +579,28 @@ module.exports.roleCreate = async (req, res) => {
   })
 }
 
-//
+// Added BE Decentralization
 module.exports.roleCreatePost = async (req, res) => {
-    // Lấy biến account thông qua middleware auth
-    req.body,createdBy = req.account.id;
-    req.body.updatedBy = req.account.id;
-
-    const newRecord = new Role(req.body);
-    await newRecord.save();
-
-    req.flash("success", "Tạo nhóm quyền thành công!");
-
+  if(!req.permissions.includes("role-create")) {
     res.json({
-      code: "success"
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
     })
+    return;
+  }
+
+  // Lấy biến account thông qua middleware auth
+  req.body,createdBy = req.account.id;
+  req.body.updatedBy = req.account.id;
+
+  const newRecord = new Role(req.body);
+  await newRecord.save();
+
+  req.flash("success", "Tạo nhóm quyền thành công!");
+
+  res.json({
+    code: "success"
+  })
 }
 
 module.exports.roleEdit = async (req, res) => {
@@ -618,29 +626,37 @@ module.exports.roleEdit = async (req, res) => {
     }
 }  
 
-//
+// Added BE Decentralization
 module.exports.roleEditPatch = async (req, res) => {
-    try {
-        const id = req.params.id;
+  if(!req.permissions.includes("role-edit")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
 
-        req.body.updatedBy = req.account.id;
+  try {
+      const id = req.params.id;
 
-        await Role.updateOne({
-            _id: id,
-            deleted: false
-        }, req.body)
+      req.body.updatedBy = req.account.id;
 
-        req.flash("success", "Cập nhật nhóm quyền thành công!");
+      await Role.updateOne({
+          _id: id,
+          deleted: false
+      }, req.body)
 
-        res.json({
-            code: "success"
-        })
-    } catch (error) {
-        res.json({
-            code: "error",
-            message: "Id không tồn tại!"
-        })
-    }    
+      req.flash("success", "Cập nhật nhóm quyền thành công!");
+
+      res.json({
+          code: "success"
+      })
+  } catch (error) {
+      res.json({
+          code: "error",
+          message: "Id không tồn tại!"
+      })
+  }    
 }
 
 module.exports.roleTrash = async (req, res) => {
@@ -666,8 +682,16 @@ module.exports.roleTrash = async (req, res) => {
   })
 }
 
-//
+// Added BE Decentralization
 module.exports.roleDeletePatch = async (req, res) => {
+  if(!req.permissions.includes("role-delete")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const id = req.params.id;
 
@@ -693,7 +717,7 @@ module.exports.roleDeletePatch = async (req, res) => {
   }
 }
 
-//
+// Added BE Decentralization
 module.exports.roleChangeMultiPatch = async (req, res) => {
   try {
     const { option, ids } = req.body;
@@ -730,8 +754,16 @@ module.exports.roleChangeMultiPatch = async (req, res) => {
   }
 }
 
-//
+// Added BE Decentralization
 module.exports.roleUndoPatch = async (req, res) => {
+  if(!req.permissions.includes("role-trash")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const id = req.params.id;
     
@@ -754,7 +786,16 @@ module.exports.roleUndoPatch = async (req, res) => {
   }
 }
 
+// Added BE Decentralization
 module.exports.roleDeleteDestroyPatch = async (req, res) => {
+  if(!req.permissions.includes("role-trash")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const id = req.params.id;
     
@@ -775,7 +816,16 @@ module.exports.roleDeleteDestroyPatch = async (req, res) => {
   }
 }
 
+// Added BE Decentralization
 module.exports.roleTrashChangeMultiPatch = async (req, res) => {
+  if(!req.permissions.includes("role-trash")) {
+    res.json({
+        code: "error",
+        message: "Bạn không có quyền thực hiện chức năng này!"
+    })
+    return;
+  }
+
   try {
     const { option, ids } = req.body;
 
