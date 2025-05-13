@@ -360,9 +360,7 @@ module.exports.accountAdminTrash = async (req, res) => {
   // End Pagination
 
   const accountAdminList = await AccountAdmin
-    .find({
-      deleted: true
-    })
+    .find(find)
     .sort({
       createdAt: "desc"
     })
@@ -551,13 +549,26 @@ module.exports.accountAdminChangeMultiPatch = async (req, res) => {
 
 // Role Page
 module.exports.roleList = async (req, res) => {
-  const roleList = await Role.find({
+  const find = {
     deleted: false
-  })
+  };
+
+  // Search
+    if (req.query.keyword) {
+        const keyword = req.query.keyword.trim();
+        find.$or = [
+            { name: { $regex: keyword, $options: "i" } }
+        ];
+    }
+  // End Search
+
+  const roleList = await Role
+    .find(find)
 
   res.render("admin/pages/setting-role-list", {
     pageTitle: "Nhóm quyền",
-    roleList: roleList
+    roleList: roleList,
+    keyword: req.query.keyword || "",
   })
 }
 
