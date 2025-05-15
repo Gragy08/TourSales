@@ -1,6 +1,6 @@
 module.exports.list = async (req, res) => {
     res.render("admin/pages/order-list", {
-        pageTitle: "Quản lý đơn hàng"
+        pageTitle: "Quản lý Đơn hàng"
     })
 }
 
