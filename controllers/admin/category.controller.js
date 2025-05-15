@@ -130,7 +130,7 @@ module.exports.list = async (req, res) => {
     .select("id fullName")
 
     res.render("admin/pages/category-list", {
-        pageTitle: "Quản lý danh mục",
+        pageTitle: "Quản lý Danh mục",
         categoryList: categoryList,
         accountAdminList: accountAdminList,
         pagination: pagination
@@ -221,7 +221,7 @@ module.exports.trash = async (req, res) => {
   .select("id fullName")
 
   res.render("admin/pages/category-trash", {
-    pageTitle: "Thùng rác danh mục",
+    pageTitle: "Thùng rác Danh mục",
     categoryList: categoryList,
     pagination: pagination,
     accountAdminList: accountAdminList

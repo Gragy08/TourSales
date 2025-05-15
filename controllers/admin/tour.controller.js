@@ -121,7 +121,7 @@ module.exports.list = async (req, res) => {
         
 
     res.render("admin/pages/tour-list", {
-        pageTitle: "Quản lý tour",
+        pageTitle: "Quản lý Tour",
         tourList: tourList,
         accountAdminList: accountAdminList,
         categoryList: categoryList,
@@ -254,7 +254,7 @@ module.exports.trash = async (req, res) => {
     }
 
     res.render("admin/pages/tour-trash", {
-        pageTitle: "Thùng rác tour",
+        pageTitle: "Thùng rác Tour",
         tourList: tourList,
         keyword: req.query.keyword || "",
         pagination: pagination
