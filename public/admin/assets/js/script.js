@@ -1461,3 +1461,56 @@ if(pagination) {
   }
 }
 // End Pagination
+
+// Contact Send Mail Form
+const contactSendMailForm = document.querySelector("#contact-send-mail-form");
+if(contactSendMailForm) {
+  const validation = new JustValidate('#contact-send-mail-form');
+
+  validation
+    .addField('#title', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập tiêu đề mail!'
+      }
+    ])
+    .addField('#content', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập nội dung mail!'
+      }
+    ])
+    .onSuccess((event) => {
+      const id = event.target.id.value;
+      const email = event.target.email.value;
+      const title = event.target.title.value;
+      const content = tinymce.get("content").getContent();
+
+      // Tạo FormData
+      const dataFinal = {
+        email: email,
+        title: title,
+        content: content
+      };
+      
+      fetch(`/${pathAdmin}/contact/send-mail/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataFinal),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "error") {
+            alert(data.message);
+          }
+
+          if(data.code == "success") {
+            window.location.reload();
+          }
+        })
+    })
+  ;
+}
+// End Contact Send Mail Form

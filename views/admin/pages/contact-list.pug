@@ -60,6 +60,10 @@ block main
                 td #{item.createdAtFormat}
                 td(class="inner-center")
                   .inner-buttons
+                    a(
+                      href=`/${pathAdmin}/contact/send-mail/${item.id}`
+                      class="inner-edit"
+                      ) <i class="fa-regular fa-envelope"></i>
                     button(
                       class="inner-delete"
                       button-delete

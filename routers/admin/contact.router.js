@@ -16,4 +16,8 @@ router.patch('/trash/change-multi', contactController.trashChangeMultiPatch)
 
 router.patch('/change-multi', contactController.changeMultiPatch)
 
+router.get('/send-mail/:id', contactController.sendMail)
+
+router.patch('/send-mail/:id', contactController.sendMailPatch)
+
 module.exports = router;
