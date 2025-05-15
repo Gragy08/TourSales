@@ -23,8 +23,6 @@ module.exports.home = async (req, res) => {
   const categoryIdSection4 = "6819eab8bf6ae1da307088fd"; // ID of Tour Trong Nuoc category
   const listCategoryId = await categoryHelper.getAllSubcategoryIds(categoryIdSection4);
 
-  console.log(listCategoryId);
-
   const tourListSection4 = await Tour
     .find({
       category: { $in: listCategoryId },
@@ -40,7 +38,6 @@ module.exports.home = async (req, res) => {
     item.departureDateFormat = moment(item.departureDate).format("DD/MM/YYYY");
   }
 
-  console.log(tourListSection4);
   // End Section 4
 
   res.render("client/pages/home", {

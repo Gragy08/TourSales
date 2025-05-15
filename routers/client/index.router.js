@@ -2,6 +2,7 @@ const router = require('express').Router();
 const homeRouters = require("./home.router");
 const tourRouters = require("./tour.router");
 const cartRouters = require("./cart.router");
+const contactRouters =  require("./contact.router");
 
 const settingMiddleware = require("../../middlewares/client/setting.middleware");
 const categoryMiddleware = require("../../middlewares/client/category.middleware");
@@ -14,5 +15,6 @@ router.use(categoryMiddleware.categoryList);
 router.use('/', homeRouters)
 router.use('/tours', tourRouters)
 router.use('/cart', cartRouters)
+router.use('/contact', contactRouters)
 
 module.exports = router;
