@@ -14,4 +14,6 @@ router.patch('/delete-destroy/:id', contactController.deleteDestroyPatch)
 
 router.patch('/trash/change-multi', contactController.trashChangeMultiPatch)
 
+router.patch('/change-multi', contactController.changeMultiPatch)
+
 module.exports = router;

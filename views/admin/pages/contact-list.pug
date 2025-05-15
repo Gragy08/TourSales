@@ -20,11 +20,14 @@ block main
     //- Section 5
     .section-5
       .inner-wrap
-        .inner-change-status
+        .inner-change-status(
+          change-multi
+          data-api=`/${pathAdmin}/contact/change-multi`
+        )
           .inner-item
             select
               option(value="") -- Hành động --
-              option(value="") Xóa
+              option(value="delete") Xóa
           .inner-item
             button Áp dụng
         .inner-search
@@ -42,7 +45,7 @@ block main
           thead
             tr
               th(class="inner-center")
-                input(type="checkbox" class="inner-check")
+                input(type="checkbox" class="inner-check" check-all)
               th Email
               th Ngày tạo
               th(class="inner-center") Hành động
@@ -50,7 +53,7 @@ block main
             each item in contactList
               tr
                 td(class="inner-center")
-                  input(type="checkbox" class="inner-check")
+                  input(type="checkbox" class="inner-check" check-item=item.id)
                 //- td levana@gmail.com
                 td #{item.email}
                 //- td 16:40 - 12/12/2024
