@@ -36,7 +36,7 @@ module.exports.list = async (req, res) => {
 
     // Pagination
     // 3 items each page
-    const limitItems = 3;
+    const limitItems = 4;
     // current page 
     let page = 1;
     if(req.query.page) {
@@ -97,7 +97,7 @@ module.exports.trash = async (req, res) => {
 
     // Pagination
     // 3 items each page
-    const limitItems = 3;
+    const limitItems = 4;
     // current page 
     let page = 1;
     if(req.query.page) {
