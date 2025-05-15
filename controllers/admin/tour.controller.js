@@ -261,6 +261,7 @@ module.exports.trash = async (req, res) => {
     })
 }
 
+// Added BE Decentralization
 module.exports.undoPatch = async (req, res) => {
     if(!req.permissions.includes("tour-trash")) {
         res.json({
@@ -291,7 +292,8 @@ module.exports.undoPatch = async (req, res) => {
         })
     }
 }
- 
+
+// Added BE Decentralization
 module.exports.deleteDestroyPatch = async (req, res) => {
     if(!req.permissions.includes("tour-trash")) {
         res.json({
@@ -321,6 +323,7 @@ module.exports.deleteDestroyPatch = async (req, res) => {
     }
 }
 
+// Added BE Decentralization
 module.exports.trashChangeMultiPatch = async (req, res) => {
     if(!req.permissions.includes("tour-trash")) {
         res.json({
@@ -361,6 +364,7 @@ module.exports.trashChangeMultiPatch = async (req, res) => {
     }
 }  
 
+// Added BE Decentralization
 module.exports.createPost = async (req, res) => {
     if(!req.permissions.includes("tour-create")) {
         res.json({
@@ -413,6 +417,7 @@ module.exports.createPost = async (req, res) => {
     })
 }
 
+// Added BE Decentralization
 module.exports.editPatch = async (req, res) => {
     if(!req.permissions.includes("tour-edit")) {
         res.json({
@@ -469,7 +474,8 @@ module.exports.editPatch = async (req, res) => {
         })
     }
 }
- 
+
+// Added BE Decentralization
 module.exports.deletePatch = async (req, res) => {
     if(!req.permissions.includes("tour-delete")) {
         res.json({
@@ -503,6 +509,7 @@ module.exports.deletePatch = async (req, res) => {
     }
 }
 
+// Added BE Decentralization
 module.exports.changeMultiPatch = async (req, res) => {
   try {
     const { option, ids } = req.body;

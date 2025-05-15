@@ -142,8 +142,16 @@ module.exports.trash = async (req, res) => {
     })
 }
 
-//
+// Added BE Decentralization
 module.exports.deletePatch = async (req, res) => {
+    if(!req.permissions.includes("contact-delete")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
+
     try {
         const id = req.params.id;
         
@@ -168,8 +176,16 @@ module.exports.deletePatch = async (req, res) => {
     }
 }
 
-//
+// Added BE Decentralization
 module.exports.undoPatch = async (req, res) => {
+    if(!req.permissions.includes("contact-trash")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
+
     try {
         const id = req.params.id;
         
@@ -192,8 +208,16 @@ module.exports.undoPatch = async (req, res) => {
     }
 }
 
-//
+// Added BE Decentralization
 module.exports.deleteDestroyPatch = async (req, res) => {
+    if(!req.permissions.includes("contact-trash")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
+
     try {
         const id = req.params.id;
         
@@ -214,8 +238,16 @@ module.exports.deleteDestroyPatch = async (req, res) => {
     }
 }
 
-//
+// Added BE Decentralization
 module.exports.trashChangeMultiPatch = async (req, res) => {
+    if(!req.permissions.includes("contact-trash")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
+
     try {
         const { option, ids } = req.body;
     
@@ -248,20 +280,20 @@ module.exports.trashChangeMultiPatch = async (req, res) => {
     }
 }
 
-//
+// Added BE Decentralization
 module.exports.changeMultiPatch = async (req, res) => {
   try {
     const { option, ids } = req.body;
 
     switch (option) {
       case "delete":
-        // if(!req.permissions.includes("tour-delete")) {
-        //   res.json({
-        //     code: "error",
-        //     message: "Bạn không có quyền thực hiện chức năng này!"
-        //   })
-        //   return;
-        // }
+        if(!req.permissions.includes("contact-delete")) {
+          res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+          })
+          return;
+        }
 
         await Contact.updateMany({
           _id: { $in: ids }
@@ -303,44 +335,51 @@ module.exports.sendMail = async (req, res) => {
     }
 }
 
+// Added BE Decentralization
 module.exports.sendMailPatch = async (req, res) => {
+    if(!req.permissions.includes("contact-reply")) {
+        res.json({
+            code: "error",
+            message: "Bạn không có quyền thực hiện chức năng này!"
+        })
+        return;
+    }
+
     try {
-    
-    const email = req.body.email;
-    const title = req.body.title;
-    const content = req.body.content;
+        const email = req.body.email;
+        const title = req.body.title;
+        const content = req.body.content;
 
-    const staffName = req.account.fullName || 'Nhân viên hỗ trợ';
-    const companyName = 'Công ty GQ8'
+        const staffName = req.account.fullName || 'Nhân viên hỗ trợ';
+        const companyName = 'Công ty GQ8'
 
-    const finalHtml = `
-      <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6;">
-        <p>Kính gửi Quý khách,</p>
+        const finalHtml = `
+        <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6;">
+            <p>Kính gửi Quý khách,</p>
 
-        <p>Chúng tôi xin phản hồi yêu cầu của Quý khách như sau:</p>
+            <p>Chúng tôi xin phản hồi yêu cầu của Quý khách như sau:</p>
 
-        <div style="border-left: 4px solid #0d6efd; padding-left: 15px; margin: 10px 0;">
-          ${content}
+            <div style="border-left: 4px solid #0d6efd; padding-left: 15px; margin: 10px 0;">
+            ${content}
+            </div>
+
+            <p>Nếu Quý khách cần thêm thông tin hoặc hỗ trợ, vui lòng liên hệ lại với chúng tôi.</p>
+
+            <p>Trân trọng,<br/>
+            ${staffName}<br/>
+            Bộ phận CSKH - ${companyName}</p>
+
+            <hr style="margin-top: 30px;" />
+            <p style="font-size: 12px; color: #888;">Email này được gửi từ hệ thống hỗ trợ khách hàng. Vui lòng không phản hồi trực tiếp.</p>
         </div>
+        `;
 
-        <p>Nếu Quý khách cần thêm thông tin hoặc hỗ trợ, vui lòng liên hệ lại với chúng tôi.</p>
+        await mailHelper.sendMail(email, title, finalHtml);
 
-        <p>Trân trọng,<br/>
-        ${staffName}<br/>
-        Bộ phận CSKH - ${companyName}</p>
-
-        <hr style="margin-top: 30px;" />
-        <p style="font-size: 12px; color: #888;">Email này được gửi từ hệ thống hỗ trợ khách hàng. Vui lòng không phản hồi trực tiếp.</p>
-      </div>
-    `;
-
-    await mailHelper.sendMail(email, title, finalHtml);
-
-    req.flash("success", "Gửi phản hồi thành công!");
-    res.json({
-      code: "success"
-    })
-    
+        req.flash("success", "Gửi phản hồi thành công!");
+        res.json({
+            code: "success"
+        })
     } catch (error) {
         res.json({
             code: "error",

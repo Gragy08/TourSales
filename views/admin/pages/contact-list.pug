@@ -27,7 +27,8 @@ block main
           .inner-item
             select
               option(value="") -- Hành động --
-              option(value="delete") Xóa
+              if (permissions.includes("contact-delete"))
+                option(value="delete") Xóa
           .inner-item
             button Áp dụng
         .inner-search
@@ -60,15 +61,17 @@ block main
                 td #{item.createdAtFormat}
                 td(class="inner-center")
                   .inner-buttons
-                    a(
-                      href=`/${pathAdmin}/contact/send-mail/${item.id}`
-                      class="inner-edit"
-                      ) <i class="fa-regular fa-envelope"></i>
-                    button(
-                      class="inner-delete"
-                      button-delete
-                      data-api=`/${pathAdmin}/contact/delete/${item.id}`
-                    ) <i class="fa-regular fa-trash-can"></i>
+                    if (permissions.includes("contact-reply"))
+                      a(
+                        href=`/${pathAdmin}/contact/send-mail/${item.id}`
+                        class="inner-edit"
+                        ) <i class="fa-regular fa-envelope"></i>
+                    if (permissions.includes("contact-delete"))
+                      button(
+                        class="inner-delete"
+                        button-delete
+                        data-api=`/${pathAdmin}/contact/delete/${item.id}`
+                      ) <i class="fa-regular fa-trash-can"></i>
     //- End Section 6
 
     //- Section 7

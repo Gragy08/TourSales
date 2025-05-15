@@ -88,12 +88,12 @@ module.exports.permissionList = [
       value: "contact-view"
     },
     {
-      label: "Tạo Liên hệ",
-      value: "contact-create"
+      label: "Phản hồi Liên hệ",
+      value: "contact-reply"
     },
     {
-      label: "Sửa Liên hệ",
-      value: "contact-edit"
+      label: "Xem chi tiết Liên hệ",
+      value: "contact-view-detail"
     },
     {
       label: "Xóa Liên hệ",
