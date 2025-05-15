@@ -20,16 +20,20 @@ block main
     //- Section 5
     .section-5
       .inner-wrap
-        .inner-change-status
+        .inner-change-status(
+          change-multi
+          data-api=`/${pathAdmin}/contact/trash/change-multi`
+        )
           .inner-item
             select
               option(value="") -- Hành động --
-              option(value="") Xóa
+              option(value="undo") Khôi phục
+              option(value="delete-destroy") Xóa vĩnh viễn
           .inner-item
             button Áp dụng
         .inner-search
           <i class="fa-solid fa-magnifying-glass"></i>
-          input(type="text" placeholder="Tìm kiếm")
+          input(type="text" placeholder="Tìm kiếm" name="keyword" value=keyword search)
         if (permissions.includes("contact-trash"))
           .inner-button-create
             a(href=`/${pathAdmin}/contact/list`) Quay lại trang Thông tin Liên hệ
@@ -42,7 +46,7 @@ block main
           thead
             tr
               th(class="inner-center")
-                input(type="checkbox" class="inner-check")
+                input(type="checkbox" class="inner-check" check-all)
               th Email
               th Ngày tạo
               th(class="inner-center") Hành động
@@ -50,7 +54,7 @@ block main
             each item in contactList
               tr
                 td(class="inner-center")
-                  input(type="checkbox" class="inner-check")
+                  input(type="checkbox" class="inner-check" check-item=item.id)
                 //- td levana@gmail.com
                 td #{item.email}
                 //- td 16:40 - 12/12/2024
@@ -58,17 +62,26 @@ block main
                 td(class="inner-center")
                   .inner-buttons
                     button(
+                      class="inner-undo"
+                      button-delete
+                      data-api=`/${pathAdmin}/contact/undo/${item.id}`
+                    ) <i class="fa-solid fa-rotate-left"></i>
+                    button(
                       class="inner-delete"
                       button-delete
-                      data-api=`/${pathAdmin}/contact/delete/${item.id}`
+                      data-api=`/${pathAdmin}/contact/delete-destroy/${item.id}`
                     ) <i class="fa-regular fa-trash-can"></i>
     //- End Section 6
 
     //- Section 7
     .section-7
-      span(class="inner-label") Hiển thị 1 - 9 của 78
-      select(class="inner-pagination")
-        option Trang 1
-        option Trang 2
-        option Trang 3
+      //- span(class="inner-label") Hiển thị 1 - 9 của 78
+      //- select(class="inner-pagination")
+      //-   option Trang 1
+      //-   option Trang 2
+      //-   option Trang 3
+      span(class="inner-label") Hiển thị #{pagination.skip + 1} - #{pagination.skip + contactList.length} của #{pagination.totalItems}
+      select(class="inner-pagination" pagination)
+        - for (let i = 1; i <= pagination.totalPages; i++)
+          option(value=i) Trang #{i}
     //- End Section 7

@@ -8,4 +8,10 @@ router.get('/trash', contactController.trash)
 
 router.patch('/delete/:id', contactController.deletePatch)
 
+router.patch('/undo/:id', contactController.undoPatch)
+
+router.patch('/delete-destroy/:id', contactController.deleteDestroyPatch)
+
+router.patch('/trash/change-multi', contactController.trashChangeMultiPatch)
+
 module.exports = router;
