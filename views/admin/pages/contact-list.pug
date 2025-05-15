@@ -29,7 +29,7 @@ block main
             button Áp dụng
         .inner-search
           <i class="fa-solid fa-magnifying-glass"></i>
-          input(type="text" placeholder="Tìm kiếm")
+          input(type="text" placeholder="Tìm kiếm" name="keyword" value=keyword search)
         if (permissions.includes("contact-trash"))
           .inner-button-trash
             a(href=`/${pathAdmin}/contact/trash`) Thùng rác
@@ -66,9 +66,8 @@ block main
 
     //- Section 7
     .section-7
-      span(class="inner-label") Hiển thị 1 - 9 của 78
-      select(class="inner-pagination")
-        option Trang 1
-        option Trang 2
-        option Trang 3
+      span(class="inner-label") Hiển thị #{pagination.skip + 1} - #{pagination.skip + contactList.length} của #{pagination.totalItems}
+      select(class="inner-pagination" pagination)
+        - for (let i = 1; i <= pagination.totalPages; i++)
+          option(value=i) Trang #{i}
     //- End Section 7
