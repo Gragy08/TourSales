@@ -6,4 +6,6 @@ router.get('/list', contactController.list)
 
 router.get('/trash', contactController.trash)
 
+router.patch('/delete/:id', contactController.deletePatch)
+
 module.exports = router;

@@ -100,3 +100,28 @@ module.exports.trash = async (req, res) => {
         contactList: contactList
     })
 }
+
+module.exports.deletePatch = async (req, res) => {
+    try {
+        const id = req.params.id;
+        
+        await Contact.updateOne({
+            _id: id
+        }, {
+            deleted: true,
+            deletedBy: req.account.id,
+            deletedAt: Date.now()
+        })
+    
+        req.flash("success", "Xóa tour thành công!");
+    
+        res.json({
+            code: "success"
+        })
+    } catch (error) {
+        res.json({
+            code: "error",
+            message: "Id không hợp lệ!"
+        })
+    }
+}
