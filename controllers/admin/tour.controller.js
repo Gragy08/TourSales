@@ -438,8 +438,13 @@ module.exports.editPatch = async (req, res) => {
         }
     
         req.body.updatedBy = req.account.id;
-        if(req.file) {
-            req.body.avatar = req.file.path;
+        // if(req.file) {
+        //     req.body.avatar = req.file.path;
+        // } else {
+        //     delete req.body.avatar;
+        // }
+        if(req.files && req.files.avatar) {
+            req.body.avatar = req.files.avatar[0].path;
         } else {
             delete req.body.avatar;
         }
@@ -457,6 +462,12 @@ module.exports.editPatch = async (req, res) => {
         req.body.departureDate = req.body.departureDate ? new Date(req.body.departureDate) : null;
         req.body.schedules = req.body.locations ? JSON.parse(req.body.schedules) : [];
     
+        if(req.files && req.files.images && req.files.images.length > 0) {
+            req.body.images = req.files.images.map(file => file.path);
+        } else {
+            delete req.body.images;
+        }
+
         await Tour.updateOne({
             _id: id,
             deleted: false
