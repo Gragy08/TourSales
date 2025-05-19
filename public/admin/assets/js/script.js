@@ -379,6 +379,14 @@ if(tourCreateForm) {
       formData.append("information", information);
       formData.append("schedules", JSON.stringify(schedules));
 
+      // images
+      if(filePondMulti.images.getFiles().length > 0) {
+        filePondMulti.images.getFiles().forEach(item => {
+          formData.append("images", item.file);
+        })
+      }
+      // End images
+
       // Send data to server
       fetch(`/${pathAdmin}/tour/create`, {
         method: "POST",

@@ -385,7 +385,12 @@ module.exports.createPost = async (req, res) => {
 
     req.body.createdBy = req.account.id;
     req.body.updatedBy = req.account.id;
-    req.body.avatar = req.file ? req.file.path : "";
+    // req.body.avatar = req.file ? req.file.path : "";
+    if(req.files && req.files.avatar) {
+        req.body.avatar = req.files.avatar[0].path;
+    } else {
+        delete req.body.avatar;
+    }
     // Hết Phần danh mục
 
     // Phần tour
@@ -405,6 +410,12 @@ module.exports.createPost = async (req, res) => {
     // Chuyển từ JSON về mảng
     req.body.schedules = req.body.locations ? JSON.parse(req.body.schedules) : [];
     // Hết Phần tour
+
+    if(req.files && req.files.images && req.files.images.length > 0) {
+        req.body.images = req.files.images.map(file => file.path);
+    } else {
+        delete req.body.images;
+    }
 
     // Save to DB
     const newRecord = new Tour(req.body);
