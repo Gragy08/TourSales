@@ -1,5 +1,6 @@
 const Category =  require("../../models/category.model");
 const Tour = require("../../models/tour.model");
+const City = require("../../models/city.model");
 const moment = require("moment");
 const categoryHelper = require("../../helpers/category.helper");
 
@@ -53,9 +54,9 @@ module.exports.list = async (req, res) => {
         // Danh sách tour
         const listCategoryId = await categoryHelper.getAllSubcategoryIds(category.id);
         const find = {
-        category: { $in: listCategoryId },
-        deleted: false,
-        status: "active"
+            category: { $in: listCategoryId },
+            deleted: false,
+            status: "active"
         };
 
         const totalTour = await Tour.countDocuments(find);
@@ -67,16 +68,21 @@ module.exports.list = async (req, res) => {
         })
 
         for(const item of tourList) {
-        item.departureDateFormat = moment(item.departureDate).format("DD/MM/YYYY");
+            item.departureDateFormat = moment(item.departureDate).format("DD/MM/YYYY");
         }
         // Hết Danh sách tour
+
+        // Danh sách thành phố
+        const cityList = await City.find({});
+        // Hết Danh sách thành phố
 
         res.render("client/pages/tour-list", {
             pageTitle: "Danh sách Tour",
             breadcrumb: breadcrumb,
             category: category,
             tourList: tourList,
-            totalTour: totalTour
+            totalTour: totalTour,
+            cityList: cityList
         });
     } else {
         res.redirect("/");
