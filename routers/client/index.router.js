@@ -3,7 +3,8 @@ const homeRouters = require("./home.router");
 const tourRouters = require("./tour.router");
 const cartRouters = require("./cart.router");
 const contactRouters =  require("./contact.router");
-const categoryRouters = require("./category.router")
+const categoryRouters = require("./category.router");
+const searchRoutes = require("./search.router");
 
 const settingMiddleware = require("../../middlewares/client/setting.middleware");
 const categoryMiddleware = require("../../middlewares/client/category.middleware");
@@ -18,5 +19,6 @@ router.use('/tours', tourRouters)
 router.use('/cart', cartRouters)
 router.use('/contact', contactRouters)
 router.use('/category', categoryRouters)
+router.use('/search', searchRoutes)
 
 module.exports = router;

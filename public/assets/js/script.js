@@ -443,6 +443,7 @@ if(boxFilter) {
 // Form Search
 const formSearch = document.querySelector("[form-search]");
 if(formSearch) {
+  // window.location.origin = http://localhost:3000
   const url = new URL(`${window.location.origin}/search`);
 
   formSearch.addEventListener("submit", (event) => {
