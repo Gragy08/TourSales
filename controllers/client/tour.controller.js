@@ -1,5 +1,7 @@
 const Tour = require('../../models/tour.model');
 const Category = require("../../models/category.model");
+const City = require("../../models/city.model");
+const moment = require("moment");
 
 //await là chờ để lấy dữ liệu xong mới chạy xuống dòng code tiếp theo, dùng await phải có async
 module.exports.detail = async (req, res) => {
@@ -61,10 +63,20 @@ module.exports.detail = async (req, res) => {
     });
     // End Breadcrumb
 
+    // Thông tin chi tiết
+    tourDetail.departureDateFormat = moment(tourDetail.departureDate).format("DD/MM/YYYY");
+
+    const cityList = await City.find({
+      _id: { $in: tourDetail.locations }
+    })
+    // Hết Thông tin chi tiết
+
+
     res.render("client/pages/tour-detail", {
         pageTitle: "Chi tiết tour",
         breadcrumb: breadcrumb,
-        tourDetail: tourDetail
+        tourDetail: tourDetail,
+        cityList: cityList
     })
     } else {
         res.redirect("/");
