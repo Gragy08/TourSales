@@ -2,15 +2,15 @@ extends ../layouts/default.pug
 
 block main 
   // Section 11
-  .section-11
+  .section-11(page-cart)
     .container
       .inner-wrap
         .inner-head
           .inner-title Giỏ Hàng
-          a.inner-back(href="#")
+          a.inner-back(href="/")
             | Quay lại mua hàng
             i.fa-solid.fa-angle-right
-        .inner-tour-list
+        .inner-tour-list(cart-list)
           // Tour Item
           .inner-tour-item
             .inner-actions
@@ -96,14 +96,20 @@ block main
             button(type="submit") Dùng Mã
         .inner-list-price
           .inner-item
-            .inner-label Tổng tiền:
-            .inner-price 15.070.000 đ
+            //- .inner-label Tổng tiền:
+            //- .inner-price 15.070.000 đ
+            .inner-label Tạm tình:
+            .inner-price
+              span(cart-sub-total) 0
+              span đ
           .inner-item
             .inner-label Giảm:
-            .inner-price -5.070.000 đ
+            .inner-price -0 đ
           .inner-item
             .inner-label Thanh toán:
-            .inner-price-highlight 17.070.000 đ
+            .inner-price-highlight
+              span(cart-total) 0
+              span đ
   // End Section 11
 
   // Section 12
@@ -157,9 +163,9 @@ block main
                 label(for="methodBank") Chuyển khoản ngân hàng
             .inner-info-bank
               .inner-title Thông tin chuyển khoản
-              .inner-text Ngân hàng : Vietcombank
-              .inner-text Tên tài khoản: Le Van A
-              .inner-text STK: 0123456789
+              .inner-text Ngân hàng : TPBank
+              .inner-text Tên tài khoản: Tran Gia Qui
+              .inner-text STK: 04979491401
           .inner-button
             button(type="submit") ĐẶT TOUR
   // End Section 12
