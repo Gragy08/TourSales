@@ -100,8 +100,12 @@ input, button, textarea {
 }
 
 .header .inner-logo img {
-  height: 50px;
+  height: 60px;
   width: auto;
+}
+
+.header .inner-logo a {
+  display: inline-block;
 }
 
 .header .inner-menu > ul {
