@@ -2,7 +2,8 @@ const Tour = require("../../models/tour.model");
 const Order = require("../../models/order.model");
 const City = require("../../models/city.model");
 
-const variableHelper = require("../../config/variable");
+// const variableHelper = require("../../config/variable");
+const variableConfig = require("../../config/variable");
 const gererateHelper = require("../../helpers/generate.helper");
 
 const moment = require("moment");
@@ -101,11 +102,14 @@ module.exports.success = async (req, res) => {
       return;
     }
 
-    orderDetail.paymentMethodName = variableHelper.paymentMethod.find(item => item.value == orderDetail.paymentMethod).label;
+    // orderDetail.paymentMethodName = variableHelper.paymentMethod.find(item => item.value == orderDetail.paymentMethod).label;
+    orderDetail.paymentMethodName = variableConfig.paymentMethod.find(item => item.value == orderDetail.paymentMethod).label;
 
-    orderDetail.paymentStatusName = variableHelper.paymentStatus.find(item => item.value == orderDetail.paymentStatus).label;
+    // orderDetail.paymentStatusName = variableHelper.paymentStatus.find(item => item.value == orderDetail.paymentStatus).label;
+    orderDetail.paymentStatusName = variableConfig.paymentStatus.find(item => item.value == orderDetail.paymentStatus).label;
 
-    orderDetail.statusName = variableHelper.orderStatus.find(item => item.value == orderDetail.status).label;
+    // orderDetail.statusName = variableHelper.orderStatus.find(item => item.value == orderDetail.status).label;
+    orderDetail.statusName = variableConfig.orderStatus.find(item => item.value == orderDetail.status).label;
 
     orderDetail.createdAtFormat = moment(orderDetail.createdAt).format("HH:mm - DD/MM/YYYY");
 
