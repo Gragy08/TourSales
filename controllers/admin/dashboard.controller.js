@@ -20,6 +20,7 @@ module.exports.dashboard = async (req, res) => {
 
   overview.totalOrder = orderList.length;
 
+  // Doanh thu
   overview.totalPrice = orderList.reduce((sum, item) => {
     return sum + item.total;
   }, 0);
