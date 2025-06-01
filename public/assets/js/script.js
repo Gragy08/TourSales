@@ -420,8 +420,18 @@ if(orderForm) {
               cart = cart.filter(item => item.checked == false);
               localStorage.setItem("cart", JSON.stringify(cart));
 
-              // Chuyển hướng sang trang đặt hành thành công
-              window.location.href = `/order/success?orderId=${data.orderId}&phone=${phone}`;
+              switch (method) {
+                case "money":
+                case "bank":
+                  // Chuyển hướng sang trang đặt hành thành công
+                  window.location.href = `/order/success?orderId=${data.orderId}&phone=${phone}`;
+                case "zalopay":
+                  // Chuyển hướng sang trang thanh toán ZaloPay
+                  window.location.href = `/order/payment-zalopay?orderId=${data.orderId}`;   
+                case "money": 
+              }
+
+              
             }
           })
       } else {
