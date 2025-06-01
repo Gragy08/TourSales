@@ -141,15 +141,23 @@ if(listFilepondImageMulti.length > 0) {
 const revenueChart = document.querySelector("#revenue-chart");
 if(revenueChart) {
   // Lấy ngày hiện tại
-  const now = new Date();
+  // const now = new Date();
+
+  let chart = null;
+  const drawChart = (date) => {
+
 
   // Lấy tháng và năm hiện tại
-  const currentMonth = now.getMonth() + 1; // getMonth() trả về giá trị từ 0 đến 11, nên cần +1
-  const currentYear = now.getFullYear();
+  // const currentMonth = now.getMonth() + 1; // getMonth() trả về giá trị từ 0 đến 11, nên cần +1
+  // const currentYear = now.getFullYear();
+  const currentMonth = date.getMonth() + 1; // getMonth() trả về giá trị từ 0 đến 11, nên cần +1
+  const currentYear = date.getFullYear();
+
 
   // Tạo một đối tượng Date mới cho tháng trước
   // Nếu hiện tại là tháng 1 thì new Date(currentYear, 0 - 1, 1) sẽ tự động chuyển thành tháng 12 của năm trước.
-  const previousMonthDate = new Date(currentYear, now.getMonth() - 1, 1);
+  // const previousMonthDate = new Date(currentYear, now.getMonth() - 1, 1);
+  const previousMonthDate = new Date(currentYear, date.getMonth() - 1, 1);
 
   // Lấy tháng và năm từ đối tượng previousMonthDate
   const previousMonth = previousMonthDate.getMonth() + 1;
@@ -186,7 +194,11 @@ if(revenueChart) {
       }
 
       if(data.code == "success") {
-        new Chart(revenueChart, {
+        // new Chart(revenueChart, {
+        if(chart) {
+          chart.destroy();
+        }
+          chart = new Chart(revenueChart, {
           type: 'line',
           data: {
             labels: arrayDay,
@@ -230,6 +242,16 @@ if(revenueChart) {
         });
       }
     })
+  }
+// Lấy ngày hiện tại
+  const now = new Date();
+  drawChart(now);
+
+  const inputMonth = document.querySelector(".section-2 input[type='month']");
+  inputMonth.addEventListener("change", () => {
+    const value = inputMonth.value;
+    drawChart(new Date(value));
+  })
 }
 // Hết Biểu đồ doanh thu
 
