@@ -425,13 +425,16 @@ if(orderForm) {
                 case "bank":
                   // Chuyển hướng sang trang đặt hành thành công
                   window.location.href = `/order/success?orderId=${data.orderId}&phone=${phone}`;
+                  break;
                 case "zalopay":
                   // Chuyển hướng sang trang thanh toán ZaloPay
-                  window.location.href = `/order/payment-zalopay?orderId=${data.orderId}`;   
-                case "money": 
+                  window.location.href = `/order/payment-zalopay?orderId=${data.orderId}`;
+                  break;
+                case "vnpay":
+                  // Chuyển hướng sang trang thanh toán VNPay
+                  window.location.href = `/order/payment-vnpay?orderId=${data.orderId}`;
+                  break;
               }
-
-              
             }
           })
       } else {
